@@ -1,6 +1,4 @@
-# Homework Template
-
-This is template repository for hosting and posting your homework assignments for Programming with Data.
+#### About Me
 
 ##Greetings! This is the main location where you can find all my homework assignments!
 
