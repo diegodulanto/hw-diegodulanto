@@ -13,6 +13,10 @@ library(palmerpenguins)
 ## R Markdown
 ```{r}
 mean(penguins$bill_length_mm, na.rm = TRUE)
+
+mean(penguins$flipper_length_mm, na.rm = TRUE, trim = 0.25)
+
+range(penguins$body_mass_g, na.rm = TRUE)
 ```
 
 

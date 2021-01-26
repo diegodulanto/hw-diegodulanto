@@ -383,6 +383,10 @@ summary {
 <h2>R Markdown</h2>
 <pre class="r"><code>mean(penguins$bill_length_mm, na.rm = TRUE)</code></pre>
 <pre><code>## [1] 43.92193</code></pre>
+<pre class="r"><code>mean(penguins$flipper_length_mm, na.rm = TRUE, trim = 0.25)</code></pre>
+<pre><code>## [1] 199.2558</code></pre>
+<pre class="r"><code>range(penguins$body_mass_g, na.rm = TRUE)</code></pre>
+<pre><code>## [1] 2700 6300</code></pre>
 <p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
 <p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
 <pre class="r"><code>summary(cars)</code></pre>
