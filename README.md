@@ -1,6 +1,6 @@
 #### About Me
 
-##Greetings! This is the main location where you can find all my homework assignments!
+## Greetings! This is the main location where you can find all my homework assignments!
 
 **My name is Diego Dulanto:**
 
