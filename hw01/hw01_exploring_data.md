@@ -22,3 +22,12 @@ range(penguins$body_mass_g, na.rm = TRUE)
 ```
 
     ## [1] 2700 6300
+
+The average penguin bill length for penguins is **43.92193**, not
+including unavailable data.
+
+The average penguin flipper length is **199.2558**, not including
+unavailable data, and *trimming 25% of the data*.
+
+Penguin body mass ranges from **2700 to 6300**, not including
+unavailable data.
