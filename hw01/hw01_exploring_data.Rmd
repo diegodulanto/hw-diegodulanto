@@ -14,6 +14,7 @@ library(palmerpenguins)
 
 ## R Markdown
 
+
 ```{r}
 mean(penguins$bill_length_mm, na.rm = TRUE)
 
