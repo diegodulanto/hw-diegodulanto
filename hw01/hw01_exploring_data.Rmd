@@ -2,7 +2,9 @@
 title: 'HW1: Exploring penguins'
 author: "Diego A. Dulanto"
 date: "1/26/2021"
-output: html_document
+output:
+  github_document:
+    html_preview: false
 ---
 
 ```{r setup, include=FALSE}
@@ -12,7 +14,6 @@ library(palmerpenguins)
 
 ## R Markdown
 
-<!-- Always place a blank line between paragraphs, headings, etc. to ensure proper formatting in rendered results. -->
 
 ```{r}
 mean(penguins$bill_length_mm, na.rm = TRUE)
