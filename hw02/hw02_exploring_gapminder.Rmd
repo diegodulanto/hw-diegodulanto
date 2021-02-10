@@ -59,7 +59,7 @@ penguins %>%
 penguins %>%       
   ggplot() + 
       aes(x = bill_length_mm, y = bill_depth_mm) + 
-      geom_point(fill = "black", color = "orange", alpha = .5, size =3) +
+      geom_point(color = "red", alpha = .5, size =3) +
       scale_y_continuous( trans = "log10")
 
 ```
@@ -73,14 +73,12 @@ penguins %>%
   summarize(
   total = n(),
   bill_length_mm_mean = mean(bill_length_mm, na.rm = TRUE),
-  bill_length_mm_sd = sd(bill_length_mm, na.rm = TRUE),
-  bill_depth_mm_mean = mean(bill_depth_mm, na.rm = TRUE),
-  bill_depth_mm_sd = sd(bill_depth_mm, na.rm = TRUE))
+  bill_length_mm_sd = sd(bill_length_mm, na.rm = TRUE))
 
 penguins %>%
   ggplot() +
     aes(x = species, y = bill_length_mm) +
-    geom_point(fill = "blue", color = "orange", alpha = .5, size = 3)
+    geom_jitter(color = "blue", alpha = .5, size = 3)
 ```
 
 
