@@ -5,11 +5,14 @@ date: "2/9/2021"
 output: html_document
 ---
 
+```{r setup}
 library(gapminder)
 library(dplyr)
 library(ggplot2)
 library(palmerpenguins)
 library(tidyverse)
+```
+
 
 # 1.1 & 1.2
 
@@ -73,7 +76,7 @@ penguins %>%
 
 # 2.2
 
-```{r setup, include=FALSE}
+```{r}
 penguins %>%
   group_by(species) %>%
   summarize(
