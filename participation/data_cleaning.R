@@ -3,8 +3,11 @@ library(tidyr)
 library(tibble)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 library(tidyverse)
 
+=======
+>>>>>>> ff0349166ddde20c2e5fc4a78f29b3fcd0f39ad7
 =======
 >>>>>>> ff0349166ddde20c2e5fc4a78f29b3fcd0f39ad7
 dat_bfi <- psychTools::bfi
