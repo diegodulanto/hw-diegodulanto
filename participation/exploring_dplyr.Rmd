@@ -1,0 +1,29 @@
+---
+title: "bfi_scoring"
+author: "Diego A. Dulanto"
+date: "2/11/2021"
+output: html_document
+---
+
+```{r setup}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(palmerpenguins)
+library(psych)
+library(gapminder)
+```
+
+
+
+```{r}
+
+```
+
+
+
+```{r}
+
+```
+
+
