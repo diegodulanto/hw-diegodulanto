@@ -1,15 +1,9 @@
 library(dplyr)
 library(tidyr)
 library(tibble)
-
-<<<<<<< HEAD
-<<<<<<< HEAD
 library(tidyverse)
+library(psych)
 
-=======
->>>>>>> ff0349166ddde20c2e5fc4a78f29b3fcd0f39ad7
-=======
->>>>>>> ff0349166ddde20c2e5fc4a78f29b3fcd0f39ad7
 dat_bfi <- psychTools::bfi
 key_bfi <- psychTools::bfi.keys
 
@@ -137,7 +131,20 @@ dat_bfi %>%
 # Now you try:
 
 ## 1. Use the psychTools::bfi (or psych::bfi) data
+
+psychTools::bfi
+
+
 ## 2. Recode gender to 'man', 'women', '(no response)'
+
+psychTools::bfi %>%
+
 ## 3. Recode education to "Some HS", "HS", "Some College", "College", "Graduate degree", "(no response)"
+  
+
 ## 4. Compute a new variable `hs_grad` with levels "no" and "yes"
+
+
 ## 5. Reverse code the -1 items, as indicated in psychTools::bfi.dictionary or psych::bfi.key
+
+
