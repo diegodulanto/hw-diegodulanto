@@ -1,0 +1,95 @@
+---
+title: "hw02_exploring_datasets"
+author: "Diego A. Dulanto"
+date: "2/9/2021"
+output: html_document
+---
+
+```{r setup}
+library(gapminder)
+library(dplyr)
+library(ggplot2)
+library(palmerpenguins)
+library(tidyverse)
+```
+
+
+# 1.1 & 1.2
+
+```{r}
+gapminder %>%
+  select(country, year, gdpPercap) %>%
+  filter(country %in% c("Peru" , "Japan", "Canada"), year>1969 & year<1980)
+```
+
+
+# 1.3
+
+```{r}
+gapminder %>%
+  select(country, lifeExp) %>%
+  mutate(lifeExpDrop = lag(lifeExp))
+```
+
+
+
+# 1.4 
+
+```{r}
+gapminder %>%
+  select(country, gdpPercap) %>%
+  mutate(maxgdpPercap = max(gdpPercap)) %>%
+  group_by(country)
+```
+
+
+
+# 1.5
+
+```{r}
+gapminder %>%
+  filter(country == "Canada") %>%
+  select(country, lifeExp, gdpPercap) %>%
+  ggplot() + aes(x=lifeExp, y=gdpPercap) + geom_point() +
+  scale_y_continuous(trans = "log10")
+```
+  
+# 2.1
+
+```{r}
+penguins %>%
+  summarize(
+  across(c(bill_length_mm, bill_depth_mm),
+  list(mean = ~ mean(.x, na.rm = TRUE),
+      sd = ~ sd(.x, na.rm = TRUE),
+      min = ~ min(.x, na.rm = TRUE),
+      max = ~ max(.x, na.rm = TRUE))))
+      
+penguins %>%       
+  ggplot() + 
+      aes(x = bill_length_mm, y = bill_depth_mm) + 
+      geom_point(color = "red", alpha = .5, size =3) +
+      scale_y_continuous( trans = "log10")
+
+```
+
+
+# 2.2
+
+```{r}
+penguins %>%
+  group_by(species) %>%
+  summarize(
+  total = n(),
+  bill_length_mm_mean = mean(bill_length_mm, na.rm = TRUE),
+  bill_length_mm_sd = sd(bill_length_mm, na.rm = TRUE))
+
+penguins %>%
+  ggplot() +
+    aes(x = species, y = bill_length_mm) +
+    geom_jitter(color = "blue", alpha = .5, size = 3)
+```
+
+
+  
+  
