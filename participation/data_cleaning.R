@@ -134,17 +134,40 @@ dat_bfi %>%
 
 psychTools::bfi
 
-
 ## 2. Recode gender to 'man', 'women', '(no response)'
 
 psychTools::bfi %>%
+  mutate(
+    gender = recode(gender,
+                    "1" = "man",
+                    "2" = "women",
+                    .missing = "no response")
+  ) %>%
+  select(gender) %>% 
+  filter(gender == "no response")
 
 ## 3. Recode education to "Some HS", "HS", "Some College", "College", "Graduate degree", "(no response)"
-  
+
+
+psychTools::bfi %>%
+  mutate(
+    education = recode(education,
+                       "1" = "Some HS",
+                       "2" = "HS",
+                       "3" = "Some College",
+                       "4" = "College",
+                       "5" = "Graduate degree",
+                       .missing = "(no response)")
+  ) %>%
+  select(education)
 
 ## 4. Compute a new variable `hs_grad` with levels "no" and "yes"
-
+psychTools::bfi %>%
+  mutate(hs_grad = recode(education,
+                          "1" = "no",
+                          .default = "yes")
+  ) %>% 
+  select(education, hs_grad)
 
 ## 5. Reverse code the -1 items, as indicated in psychTools::bfi.dictionary or psych::bfi.key
-
 
