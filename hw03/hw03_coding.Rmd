@@ -1,0 +1,29 @@
+---
+title: "hw03"
+author: "Diego A. Dulanto"
+date: "2/18/2021"
+output: html_document
+---
+
+```{r setup}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+```
+
+
+
+```{r}
+dictionary <- readr::read_csv("green_dictionary.csv")
+green_data <- readr::read_csv("green_data.csv")
+```
+
+
+
+```{r}
+print(green_data)
+summary(green_data$comp1)
+view(green_data)
+```
+
+
