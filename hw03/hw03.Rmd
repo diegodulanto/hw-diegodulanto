@@ -19,8 +19,27 @@ For your assignment, do the following.
 
   1. Inspect the item responses (e.g., with graphs or by summarizing distinct values). 
      Is anything unusual?
+```{r}
+green_data %>% 
+  summarize(green_data)
+
+dictionary %>% 
+  summarize(dictionary)
+
+green_data %>% 
+  ggplot() +
+  geom_jitter(aes(x = "id", y = "green"))
+
+#There are -99s in the data that needs to be recoded
+```     
+
   2. Compute total scores for the four scales. 
      Recode variables as needed.
+```{r}
+
+```
+     
+
   3. Rescale the variables so that they go from 0-100 instead of the original range.
      Name the recaled variables `*_pomp`.
   4. Make plots that illustrate the distributions of the 4 POMP-scored variables.
