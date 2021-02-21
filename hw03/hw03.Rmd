@@ -4,13 +4,12 @@ You will analyze data looking at the relationship between **green reputation** a
 The dataset includes data from **students** and **non-students**.
 
 ```{r setup}
+library(dplyr)
+library(tidyr)
+library(tibble)
 library(ggplot2)
 library(tidyverse)
-library(dplyr)
-```
-
-
-```{r}
+library(gridExtra)
 dictionary <- readr::read_csv("green_dictionary.csv")
 green_data <- readr::read_csv("green_data.csv")
 ```
@@ -21,7 +20,13 @@ For your assignment, do the following.
      Is anything unusual?
 ```{r}
 green_data %>% 
-  summarize(green_data)
+  summarise(
+    across(
+      c(green1:student),
+      list(Max = ~ max(.x, na.rm = TRUE),
+           Min = ~ min(.x, na.rm = TRUE))))
+
+filter(green_data, id == 5549)
 
 dictionary %>% 
   summarize(dictionary)
@@ -31,11 +36,57 @@ green_data %>%
   geom_jitter(aes(x = "id", y = "green"))
 
 #There are -99s in the data that needs to be recoded
+#There are duplicate data
 ```     
 
   2. Compute total scores for the four scales. 
      Recode variables as needed.
 ```{r}
+temp_recode <- dictionary %>%
+  pull(Item)
+
+Q2 <- green_data %>%
+  mutate(
+    across(
+      all_of(temp_recode),
+           ~ na_if(.x, -99))) %>%
+  mutate(
+    id2 = ifelse(
+      duplicated(id),
+      paste0(id, "r"), id))
+
+reverse_recode <- dictionary %>%
+  filter(Keying == -1 | Keying ==-2) %>%
+  pull(Item)
+
+Q2.1 <- Q2%>%
+  mutate(
+    across(
+      all_of(reverse_recode),
+           ~ recode(.x, 
+                    "5" = 1, 
+                    "4" = 2, 
+                    "3" = 3, 
+                    "2" = 4, 
+                    "1" = 5)))
+
+Q2.1 %>%
+  rowwise() %>%
+  group_by(id2) %>%
+  mutate(
+    Total_green = sum(c_across(green1 : green5),
+                      na.rm = TRUE), 
+    Total_comp = sum(c_across(comp1 : comp10), 
+                     na.rm = TRUE),
+    Total_intel = sum(c_across(intel1 : intel10), 
+                      na.rm = TRUE),
+    Total_open = sum(c_across(open1 : open10), 
+                     na.rm = TRUE)) %>% 
+  select(id2,
+         Total_green,
+         Total_comp,
+         Total_intel,
+         Total_open)
 
 ```
      
@@ -43,7 +94,30 @@ green_data %>%
   3. Rescale the variables so that they go from 0-100 instead of the original range.
      Name the recaled variables `*_pomp`.
 ```{r}
+Q3 <- Q2.1 %>%
+  mutate(
+    across(c(green1 : green5),
+           ~.x * 4,
+           .names = "{.col}_pomp")) %>% 
+  mutate(
+    across(c(comp1 : open10),
+           ~.x * 2, .names = "{.col}_pomp"))
 
+Q3.1 <- Q3 %>%
+  rowwise() %>%
+  group_by(id2) %>% 
+  mutate(Total_green = sum(c_across(green1_pomp : green5_pomp), na.rm = TRUE),
+         Total_comp = sum(c_across(comp1_pomp : comp10_pomp), na.rm = TRUE),
+         Total_intel = sum(c_across(intel1_pomp : intel10_pomp), na.rm = TRUE),
+         Total_open = sum(c_across(open1_pomp : open10_pomp), na.rm = TRUE)) %>% 
+  select(id2,
+         Total_green,
+         Total_comp,
+         Total_intel,
+         Total_open,
+         student)
+
+Q3.1
 ```
      
 
