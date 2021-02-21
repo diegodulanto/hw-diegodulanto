@@ -2,8 +2,12 @@
 title: "hw02_exploring_datasets"
 author: "Diego A. Dulanto"
 date: "2/9/2021"
-output: html_document
+output: 
+  html_document: default
+  github_document: default
 ---
+
+<!-- BMW: Please knit to both HTML and github_document -->
 
 ```{r setup}
 library(gapminder)
@@ -31,15 +35,23 @@ gapminder %>%
   mutate(lifeExpDrop = lag(lifeExp))
 ```
 
+<!-- BMW: No, lag() just shows the previous row of data. You need to combine that with other functions to (1) compute the difference between each row and the previous rows, then (2) filter to show just the values where life expectancy has dropped. Like this: -->
 
+```{r}
+gapminder %>% 
+  group_by(country) %>% 
+  mutate(changeLifeExp = lifeExp - lag(lifeExp)) %>% 
+  filter(changeLifeExp < 0)
+```
 
 # 1.4 
 
+<!-- BMW: This task asked you to _filter_ the dataset. You just computed a new column. -->
+
 ```{r}
-gapminder %>%
-  select(country, gdpPercap) %>%
-  mutate(maxgdpPercap = max(gdpPercap)) %>%
-  group_by(country)
+gapminder %>% # BMW: Don't do unnecessary select()ing
+  group_by(country) %>% # BMW: group_by() needs to come first, otherwise you will only refer to the one max value for the whole dataset instead of the max for each country, as the question asked.
+  filter(gdpPercap == max(gdpPercap)) # BMW: You need to _filter_, not _mutate_ here.
 ```
 
 
@@ -50,27 +62,31 @@ gapminder %>%
 gapminder %>%
   filter(country == "Canada") %>%
   select(country, lifeExp, gdpPercap) %>%
-  ggplot() + aes(x=lifeExp, y=gdpPercap) + geom_point() +
-  scale_y_continuous(trans = "log10")
+  ggplot() + 
+  aes(x=lifeExp, y=gdpPercap) + # BMW: For code readability, put plotting functions on new lines each
+  geom_point() +
+  scale_y_continuous(trans = "log10") # BMW: Nice job!
 ```
   
 # 2.1
 
 ```{r}
-penguins %>%
+penguins %>% # BMW: Nice work here! Indenting like this can make it easier to read your code.
   summarize(
-  across(c(bill_length_mm, bill_depth_mm),
-  list(mean = ~ mean(.x, na.rm = TRUE),
-      sd = ~ sd(.x, na.rm = TRUE),
-      min = ~ min(.x, na.rm = TRUE),
-      max = ~ max(.x, na.rm = TRUE))))
+    across(c(bill_length_mm, bill_depth_mm),
+           list(mean = ~ mean(.x, na.rm = TRUE),
+                sd = ~ sd(.x, na.rm = TRUE),
+                min = ~ min(.x, na.rm = TRUE),
+                max = ~ max(.x, na.rm = TRUE)
+           )
+    )
+  )
       
 penguins %>%       
   ggplot() + 
       aes(x = bill_length_mm, y = bill_depth_mm) + 
-      geom_point(color = "red", alpha = .5, size =3) +
-      scale_y_continuous( trans = "log10")
-
+      geom_point(color = "red", alpha = .5, size = 3) +
+      scale_y_continuous(trans = "log10") # BMW: In general, it's often better to avoid log scaling and similar. It can make it harder for folks to understand the plot (they assume the scale is linear).
 ```
 
 
@@ -80,16 +96,13 @@ penguins %>%
 penguins %>%
   group_by(species) %>%
   summarize(
-  total = n(),
-  bill_length_mm_mean = mean(bill_length_mm, na.rm = TRUE),
-  bill_length_mm_sd = sd(bill_length_mm, na.rm = TRUE))
+    total = n(),
+    bill_length_mm_mean = mean(bill_length_mm, na.rm = TRUE),
+    bill_length_mm_sd = sd(bill_length_mm, na.rm = TRUE)
+  )
 
 penguins %>%
   ggplot() +
     aes(x = species, y = bill_length_mm) +
-    geom_jitter(color = "blue", alpha = .5, size = 3)
+    geom_jitter(color = "blue", alpha = .5, size = 3, height = 0, width = .5) # BMW: when you use jitter with 1 categorical and 1 continuous variable, don't jitter on axis that has continuous variable. See the height and width arguments
 ```
-
-
-  
-  
