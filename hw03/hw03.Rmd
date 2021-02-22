@@ -123,6 +123,28 @@ Q3.1
 
   4. Make plots that illustrate the distributions of the 4 POMP-scored variables.
 ```{r}
+Q4 <- Q3.1 %>%
+  select(id2,
+         Total_green, 
+         Total_comp, 
+         Total_intel, 
+         Total_open) %>%
+  pivot_longer(., 
+               cols = c(Total_green,
+                        Total_comp,
+                        Total_intel,
+                        Total_open), 
+               names_to = "POMP_variables", 
+               values_to = "POMP_scores")
+
+ggplot(Q4) +
+  aes(x = id2, 
+      y = POMP_scores) + 
+  facet_grid(~ POMP_variables) + 
+  geom_point() +
+  scale_x_discrete("ID") +
+  scale_y_continuous("POMP Scores") + 
+  theme_bw()
 
 ```
   
@@ -131,6 +153,93 @@ Q3.1
      Include trend lines for **students** and **non-students**.
      What do these plots show?
 ```{r}
+Q5 <- Q3.1 %>%
+  mutate(
+    student = recode(student, 
+                     "1" = "Not a student", 
+                     "2" = "Student", 
+                     .default = "No Response", 
+                     .missing = "No Response"))
+
+a <- ggplot(Q5) +
+  aes(x = Total_green,
+      y = Total_comp, 
+      color = student) +
+  geom_point() +
+  scale_color_manual(values = c("black", 
+                                "red", 
+                                "blue")) +
+  geom_smooth(method = "lm") +
+  theme_classic()
+
+b <- ggplot(Q5) +
+  aes(x = Total_green,
+      y = Total_intel, 
+      color = student) +
+  geom_point() +
+  scale_color_manual(values = c("black", 
+                                "red", 
+                                "blue")) +
+  geom_smooth(method = "lm") +
+  theme_classic()
+
+c <- ggplot(Q5) +
+  aes(x = Total_green,
+      y = Total_open,  
+      color = student) +
+  geom_point() +
+  scale_color_manual(values = c("black", 
+                                "red", 
+                                "blue")) +
+  geom_smooth(method = "lm") +
+  theme_classic()
+
+Q5.1 <- Q3.1 %>% 
+  mutate(
+    student = recode(student, 
+                     "1" = "Not a student", 
+                     "2" = "Student"))
+
+d <- ggplot(data = subset(Q5.1, 
+                          !is.na(student))) +
+  aes(x = Total_green,
+      y = Total_comp, 
+      color = student) +
+  scale_color_manual(values = c("red", 
+                              "blue")) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  theme_classic()
+
+e <- ggplot(data = subset(Q5.1, 
+                          !is.na(student))) +
+  aes(x = Total_green,
+      y = Total_intel, 
+      color = student) +
+  scale_color_manual(values = c("red", 
+                              "blue")) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  theme_classic()
+
+f <- ggplot(data = subset(Q5.1, 
+                          !is.na(student))) +
+  aes(x = Total_green,
+      y = Total_open, 
+      color = student) +
+  scale_color_manual(values = c("red", 
+                              "blue")) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  theme_classic()
+
+grid.arrange(a,
+             b,
+             c,
+             d,
+             e,
+             f, 
+             nrow = 2)
 
 ```
      
@@ -143,6 +252,19 @@ Q3.1
 
   7. Compute a summary table of means, SDs, medians, minima, and maxima for the four total scores for students and non-students.
 ```{r}
+Q5 %>%
+  group_by(student) %>% 
+  summarize(across(c(Total_green:Total_open),
+                    list(Mu = ~mean(.x,
+                                    na.rm = TRUE),
+                         Sigma = ~sd(.x,
+                                     na.rm=TRUE),
+                         Median = ~median(.x,
+                                          na.rm=TRUE),
+                         Max=~max(.x, 
+                                  na.rm = TRUE),
+                         Min=~min(.x, 
+                                  na.rm = TRUE))))
 
 ```
   
