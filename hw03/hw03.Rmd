@@ -56,7 +56,7 @@ green_data %>%
 
 #There are -99s in the data that needs to be recoded
 
-green_recode <-
+recoded_green <-
   green_data %>%
   replace_with_na_all(~.x == -99) %>%
   mutate(
@@ -74,7 +74,7 @@ reversed <- dictionary %>%
 
 reversed
 
-green_reversed <-green_recode %>%
+reversed_green <-recoded_green %>%
   mutate(
     across(
       all_of(reversed),
@@ -84,10 +84,10 @@ green_reversed <-green_recode %>%
                     "3" = 3, 
                     "2" = 4, 
                     "1" = 5)))
-View(green_reversed)
+View(reversed_green)
 
-green_total<-
-  green_reversed %>% 
+total_green <-
+  reversed_green %>% 
   rowwise() %>% 
   mutate(green_tot = mean(c_across(green1:green5)),
          comp_tot = mean(c_across(comp1:comp10)),
@@ -96,18 +96,18 @@ green_total<-
   na.omit() %>%
   select(id, student, green_tot, comp_tot, intel_tot, open_tot)
 
-View(green_total)
+View(total_green)
 
-summary(green_total)
+summary(total_green)
 
 ```
      
 
   3. Rescale the variables so that they go from 0-100 instead of the original range.
-     Name the recaled variables `*_pomp`.
+     Name the rescaled variables `*_pomp`.
 ```{r}
-green_rescale <-
-  green_total %>%
+rescaled_green <-
+  total_green %>%
   mutate(
     green_pomp = rescale(green_tot, 
                          to=c(0,100), 
@@ -128,34 +128,34 @@ green_rescale <-
          intel_pomp, 
          open_pomp)
 
-View(green_rescale)
+View(rescaled_green)
 
-summary(green_rescale)
+summary(rescaled_green)
 
 ```
      
 
   4. Make plots that illustrate the distributions of the 4 POMP-scored variables.
 ```{r Q4 fig2, fig.height = 10, fig.width = 15, fig.align = "center"}
-green_histo <- ggplot(green_rescale) +
+green_histo <- ggplot(rescaled_green) +
   aes(x = green_pomp) +
   geom_histogram(fill = "red",
                  bins = 25)+
   theme_classic()
 
-intel_histo  <- ggplot(green_rescale) +
+intel_histo  <- ggplot(rescaled_green) +
   aes(x = intel_pomp) +
   geom_histogram(fill = "green",
                  bins = 25)+
   theme_classic()
 
-comp_histo <- ggplot(green_rescale) +
+comp_histo <- ggplot(rescaled_green) +
   aes(x = comp_pomp) +
   geom_histogram(fill = "blue",
                  bins = 25)+
   theme_classic()
 
-open_histo <- ggplot(green_rescale) +
+open_histo <- ggplot(rescaled_green) +
   aes(x = open_pomp) +
   geom_histogram(fill = "purple",
                  bins = 25)+
@@ -166,7 +166,8 @@ grid.arrange(green_histo,
              intel_histo, 
              open_histo)
 
-## The graphs show that these four variables have relatively normal distribution. The data tells us that, for comp and open, their distribution are slightly skewed left.
+#The graphs show that these four variables have relatively normal distribution. 
+#The data also tells us that, for comp and open, their distribution are slightly skewed left.
 
 ```
 
@@ -176,7 +177,7 @@ Include trend lines for **students** and **non-students**.
 What do these plots show?
 ```{r Q5 fig2, fig.height = 10, fig.width = 15, fig.align = "center"}
 comp_scatter <-
-  ggplot(green_rescale, aes(x=comp_pomp, 
+  ggplot(rescaled_green, aes(x=comp_pomp, 
                             y=green_pomp, 
                             color=student)) + 
   theme_bw() +
@@ -184,7 +185,7 @@ comp_scatter <-
   geom_smooth(aes(group=student))
 
 intel_scatter <-
-  ggplot(green_rescale, aes(x=intel_pomp, 
+  ggplot(rescaled_green, aes(x=intel_pomp, 
                             y=green_pomp, 
                             color=student)) + 
   theme_bw() +
@@ -192,7 +193,7 @@ intel_scatter <-
   geom_smooth(aes(group=student))
 
 open_scatter <-
-  ggplot(green_rescale, aes(x=open_pomp, 
+  ggplot(rescaled_green, aes(x=open_pomp, 
                             y=green_pomp, 
                             color=student)) + 
   theme_bw() +
@@ -203,13 +204,15 @@ grid.arrange(comp_scatter,
              intel_scatter, 
              open_scatter)
 
-## The overall relationships between green reputation and personalities are shared with students and nonstudents. Higher the score on compassion, intellect, and openness, higher the green reputation. However, for students, intellect and openness have a stronger effect on the green reputation.
+#Intellect and openness have a stronger effect on the green reputation for students.
+#The relationship between personality traits and green reputation correlate with students and non-students. 
+#The higher the score on compassion, intellect, and openness, the higher the green reputation. 
 
 ```
 
   6. Compare **green reputation** for students and non-students using a **rainfall plot** (bar + density + data points).
 ```{r Q6 fig2, fig.height = 10, fig.width = 15, fig.align = "center"}
-ggplot(green_rescale, 
+ggplot(rescaled_green, 
        aes(x = green_pomp, 
            color=student), 
        alpha = .5) +
@@ -219,14 +222,15 @@ ggplot(green_rescale,
                  color=student), 
              alpha = .5)
 
-## The overall density of green reputation for both student and nonstudent groups are similar. While non students has a wider distribution on the green reputation scale and has a larger amount of them with scores around the mean.
+#Non-students have a higher count on the green reputation scale than the students. 
+#Non-students have a slightly wider distribution on the green reputation scale.
 
 ```
   
 
   7. Compute a summary table of means, SDs, medians, minima, and maxima for the four total scores for students and non-students.
 ```{r}
-green_rescale %>%
+rescaled_green %>%
   select(student, green_pomp, 
          comp_pomp, 
          intel_pomp, 
@@ -243,7 +247,9 @@ green_rescale %>%
                 min = ~min(.x, na.rm = TRUE),
                 max = ~max(.x, na.rm = TRUE))))
 
-## Nonstudents have a slightly higher green reputation mean and smaller standard variance, as well as higher median, a larger range. Nonstudents also show a lower score on compassion despite their minimum score of compassion is much higher than the students. Besides, Nonstudents' minimum score on all personalities are much higher than students'.
+#Non-students have a higher green reputation mean, lower standard variance, higher median, and larger range in comparison with students. 
+#Notably, non-students have a lower score on openness even though their minimum score is much higher than students. 
+#Surprisingly, non-students had a higher minimum score on all personality traits than students.
 
 ```
   
