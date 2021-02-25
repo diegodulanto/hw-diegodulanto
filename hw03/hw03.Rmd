@@ -1,0 +1,258 @@
+---
+title: "hw03"
+author: "Diego A. Dulanto"
+date: "2/18/2021"
+output:
+    html_document: default
+    github_document: default
+    keep_md: TRUE
+    theme: paper
+---
+
+# Homework 03
+
+```{r setup}
+library(dplyr)
+library(tidyr)
+library(tibble)
+library(naniar)
+library(scales)
+library(ggplot2)
+library(gridExtra)
+library(tidyverse)
+```
+
+You will analyze data looking at the relationship between **green reputation** and three personality traits--**compassion**, **intellectual curiosity**, and **openness to experiences**.
+The dataset includes data from **students** and **non-students**.
+
+```{r}
+dictionary <- readr::read_csv("green_dictionary.csv")
+green_data <- readr::read_csv("green_data.csv")
+View(dictionary)
+View(green_data)
+```
+
+
+For your assignment, do the following.
+
+  1. Inspect the item responses (e.g., with graphs or by summarizing distinct values). 
+     Is anything unusual?
+```{r}
+green_data %>% 
+  summarise(
+    across(
+      c(green1:student),
+      list(Max = ~ max(.x, na.rm = TRUE),
+           Min = ~ min(.x, na.rm = TRUE))))
+
+filter(green_data, id == 5549) #I'm checking for duplicate data
+
+dictionary %>% 
+  summarize(dictionary)
+
+green_data %>% 
+  ggplot() +
+  geom_jitter(aes(x = "id", y = "green"))
+
+#There are -99s in the data that needs to be recoded
+
+recoded_green <-
+  green_data %>%
+  na_if(-99) %>%
+  mutate(
+    student = recode(student, "1" = "nonstudent", "2" = "student"))
+
+```     
+
+  2. Compute total scores for the four scales. 
+     Recode variables as needed.
+```{r}
+reversed <- dictionary %>%
+  filter(
+    Keying == -1 | Keying == -2) %>%
+  pull(Item)
+
+reversed
+
+reversed_green <-recoded_green %>%
+  mutate(
+    across(
+      all_of(reversed),
+           ~ recode(.x, 
+                    "5" = 1, 
+                    "4" = 2, 
+                    "3" = 3, 
+                    "2" = 4, 
+                    "1" = 5)))
+View(reversed_green)
+
+total_green <-
+  reversed_green %>% 
+  rowwise() %>% 
+  mutate(green_tot = mean(c_across(green1:green5)),
+         comp_tot = mean(c_across(comp1:comp10)),
+         intel_tot = mean(c_across(intel1:intel10)),
+         open_tot = mean(c_across(open1:open10))) %>% 
+  na.omit() %>%
+  select(id, student, green_tot, comp_tot, intel_tot, open_tot)
+
+View(total_green)
+
+summary(total_green)
+
+```
+     
+
+  3. Rescale the variables so that they go from 0-100 instead of the original range.
+     Name the rescaled variables `*_pomp`.
+```{r}
+rescaled_green <-
+  total_green %>%
+  mutate(
+    green_pomp = rescale(green_tot, 
+                         to=c(0,100), 
+                         from=c(1,5)),
+    comp_pomp = rescale(comp_tot, 
+                        to=c(0,100), 
+                        from=c(1,5)),
+    intel_pomp = rescale(intel_tot, 
+                         to=c(0,100), 
+                         from=c(1,5)),
+    open_pomp = rescale(open_tot, 
+                        to=c(0,100), 
+                        from=c(1,5))) %>%
+  select(id, 
+         student, 
+         green_pomp, 
+         comp_pomp, 
+         intel_pomp, 
+         open_pomp)
+
+View(rescaled_green)
+
+summary(rescaled_green)
+
+```
+     
+
+  4. Make plots that illustrate the distributions of the 4 POMP-scored variables.
+```{r Q4 fig2, fig.height = 10, fig.width = 15, fig.align = "center"}
+green_histo <- ggplot(rescaled_green) +
+  aes(x = green_pomp) +
+  geom_histogram(fill = "red",
+                 bins = 25)+
+  theme_classic()
+
+intel_histo  <- ggplot(rescaled_green) +
+  aes(x = intel_pomp) +
+  geom_histogram(fill = "green",
+                 bins = 25)+
+  theme_classic()
+
+comp_histo <- ggplot(rescaled_green) +
+  aes(x = comp_pomp) +
+  geom_histogram(fill = "blue",
+                 bins = 25)+
+  theme_classic()
+
+open_histo <- ggplot(rescaled_green) +
+  aes(x = open_pomp) +
+  geom_histogram(fill = "purple",
+                 bins = 25)+
+  theme_classic()
+
+grid.arrange(green_histo, 
+             comp_histo, 
+             intel_histo, 
+             open_histo)
+
+#The graphs show that these four variables have relatively normal distribution. 
+#The data also tells us that, for comp and open, their distribution are slightly skewed left.
+
+```
+
+
+5. Make scatterplots showing the relationships between **green reputation** and each personality trait.
+Include trend lines for **students** and **non-students**.
+What do these plots show?
+```{r Q5 fig2, fig.height = 10, fig.width = 15, fig.align = "center"}
+comp_scatter <-
+  ggplot(rescaled_green, aes(x=comp_pomp, 
+                            y=green_pomp, 
+                            color=student)) + 
+  theme_bw() +
+  geom_point(alpha = .5) +
+  geom_smooth(aes(group=student))
+
+intel_scatter <-
+  ggplot(rescaled_green, aes(x=intel_pomp, 
+                            y=green_pomp, 
+                            color=student)) + 
+  theme_bw() +
+  geom_point(alpha = .5) +
+  geom_smooth(aes(group=student))
+
+open_scatter <-
+  ggplot(rescaled_green, aes(x=open_pomp, 
+                            y=green_pomp, 
+                            color=student)) + 
+  theme_bw() +
+  geom_point(alpha = .5) +
+  geom_smooth(aes(group=student))
+
+grid.arrange(comp_scatter, 
+             intel_scatter, 
+             open_scatter)
+
+#Intellect and openness have a stronger effect on the green reputation for students.
+#The relationship between personality traits and green reputation correlate with students and non-students. 
+#The higher the score on compassion, intellect, and openness, the higher the green reputation. 
+
+```
+
+  6. Compare **green reputation** for students and non-students using a **rainfall plot** (bar + density + data points).
+```{r Q6 fig2, fig.height = 10, fig.width = 15, fig.align = "center"}
+ggplot(rescaled_green, 
+       aes(x = green_pomp, 
+           color=student), 
+       alpha = .5) +
+  geom_bar() +
+  geom_density() +
+  geom_point(aes(y = "idetity", 
+                 color=student), 
+             alpha = .5)
+
+#Non-students have a higher count on the green reputation scale than the students. 
+#Non-students have a slightly wider distribution on the green reputation scale.
+
+```
+  
+
+  7. Compute a summary table of means, SDs, medians, minima, and maxima for the four total scores for students and non-students.
+```{r}
+rescaled_green %>%
+  select(student, green_pomp, 
+         comp_pomp, 
+         intel_pomp, 
+         open_pomp) %>%
+  group_by(student) %>%
+  summarize(
+    across(c(green_pomp, 
+             comp_pomp, 
+             intel_pomp, 
+             open_pomp),
+           list(mean = ~mean(.x, na.rm = TRUE),
+                sd = ~sd(.x, na.rm = TRUE),
+                med = ~median(.x, na.rm = TRUE),
+                min = ~min(.x, na.rm = TRUE),
+                max = ~max(.x, na.rm = TRUE))))
+
+#Non-students have a higher green reputation mean, lower standard variance, higher median, and larger range in comparison with students. 
+#Notably, non-students have a lower score on openness even though their minimum score is much higher than students. 
+#Surprisingly, non-students had a higher minimum score on all personality traits than students.
+
+```
+  
+
+  
+In your assignment, prepare an RMarkdown file that includes both the coding and (for 4-7) narrative descriptions of your results.
