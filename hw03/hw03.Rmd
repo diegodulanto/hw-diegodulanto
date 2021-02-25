@@ -45,7 +45,7 @@ green_data %>%
       list(Max = ~ max(.x, na.rm = TRUE),
            Min = ~ min(.x, na.rm = TRUE))))
 
-filter(green_data, id == 5549)
+filter(green_data, id == 5549) #I'm checking for duplicate data
 
 dictionary %>% 
   summarize(dictionary)
@@ -58,7 +58,7 @@ green_data %>%
 
 recoded_green <-
   green_data %>%
-  replace_with_na_all(~.x == -99) %>%
+  na_if(-99) %>%
   mutate(
     student = recode(student, "1" = "nonstudent", "2" = "student"))
 
