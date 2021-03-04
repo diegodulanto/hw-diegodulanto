@@ -48,9 +48,9 @@ library(ggplot2)
 ```{r}
 beer_data <- read_csv(url,
                       col_types = cols(
-  `Beer Category` = col_character(),
-  `Average ABV` = col_double(),
-  rAVG = col_double()))
+                        `Beer Category` = col_character(),
+                        `Average ABV` = col_double(),
+                        rAVG = col_double()), na = c("", "NA", "Non-alcoholic")) #ctrl+I fixes the indentation
 
 beer_data
 ```
