@@ -1,6 +1,6 @@
 ---
 title: "Beer Advocate: ABV and quality ratings"
-author: "Your Name Here"
+author: "Diego A Dulanto"
 output: html_document
 ---
 
@@ -14,6 +14,7 @@ The data are originally from [here](http://scottjanish.com/relationship-of-abv-t
 
 ```{r}
 url <- "https://raw.githubusercontent.com/USF-Psych-DataSci/Classroom/master/data/beer-advocate.csv"
+
 ```
 
 The dataset contains 3 variables:
@@ -30,3 +31,40 @@ You should write a script to do the following:
   3. Make a figure illustrating the relationship between ABV and beer quality.
   4. Compute a summary table with the mean and SD of each variable, along with their correlation.
   5. Describe the results.
+
+```{r setup}
+library(tidyverse)
+library(readr)
+library(ggplot2)
+```
+
+#Downloading file
+```{r}
+
+
+```
+
+#Importing file
+```{r}
+beer_data <- read_csv(url,
+                      col_types = cols(
+  `Beer Category` = col_character(),
+  `Average ABV` = col_double(),
+  rAVG = col_double()))
+
+beer_data
+```
+
+#Plotting data
+```{r}
+
+
+```
+
+#Computing data
+```{r}
+
+```
+
+#Description of results
+##
