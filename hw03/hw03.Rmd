@@ -3,9 +3,9 @@ title: "hw03"
 author: "Diego A. Dulanto"
 date: "2/18/2021"
 output:
+  github_document: default
   html_document: 
     theme: paper
-  github_document: default
 ---
 
 
