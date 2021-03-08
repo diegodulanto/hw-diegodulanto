@@ -8,24 +8,16 @@ output:
   github_document: default
 ---
 
-<!-- BMW: Please knit both to html_document and github_document formats (knit twice). 
-          In your YAML header, indent subsections by 2 spaces, not 4.
-          You don't need keep_md (that's what kitting the github_document version is for).
-          Sub-options, like the theme for html_document, need to be indented under the parent option. When you have a sub-option like theme, don't include "default" for the parent option. 
-          See what I edited above.
--->
 
 # Homework 03
 
+
 ```{r setup}
-library(dplyr)
-library(tidyr)
-library(tibble)
 library(naniar)
 library(scales)
-library(ggplot2)
 library(gridExtra)
-library(tidyverse) # BMW: library(tidyverse) also loads dplyr, ticyr, tibble, ggplot2, so you don't need both
+library(tidyverse)
+library(patchwork)
 ```
 
 You will analyze data looking at the relationship between **green reputation** and three personality traits--**compassion**, **intellectual curiosity**, and **openness to experiences**.
@@ -34,16 +26,14 @@ The dataset includes data from **students** and **non-students**.
 ```{r}
 dictionary <- readr::read_csv("green_dictionary.csv")
 green_data <- readr::read_csv("green_data.csv")
-View(dictionary) # bMW: Don't inlcude View() calls in your final script!
-View(green_data)
 ```
 
 
 For your assignment, do the following.
 
-  1. Inspect the item responses (e.g., with graphs or by summarizing distinct values). 
-     Is anything unusual?
-     
+1. Inspect the item responses (e.g., with graphs or by summarizing distinct values). Is anything unusual?
+
+  
 ```{r}
 green_data %>%
   summarise(across(c(green1:student),
@@ -69,15 +59,15 @@ recoded_green <-
   mutate(student = recode(student, "1" = "nonstudent", "2" = "student"))
 ```     
 
-  2. Compute total scores for the four scales. 
-     Recode variables as needed.
-     
+
+2. Compute total scores for the four scales. Recode variables as needed.
+
+
 ```{r}
 reversed <- dictionary %>%
   filter(Keying == -1 | Keying == -2) %>%
   pull(Item)
 
-reversed # BMW: Don't unnecessarily print out whole datasets in your final script.
 
 reversed_green <- recoded_green %>%
   mutate(across(all_of(reversed),
@@ -89,7 +79,6 @@ reversed_green <- recoded_green %>%
                   "2" = 4,
                   "1" = 5
                 )))
-View(reversed_green) # BMW: Don't include View() calls in your final script
 
 total_green <-
   reversed_green %>%
@@ -102,16 +91,12 @@ total_green <-
   ) %>%
   na.omit() %>%
   select(id, student, green_tot, comp_tot, intel_tot, open_tot)
-
-View(total_green) # BMW: Don't leave View() in your final script.
-
-summary(total_green) # BMW: Why is this year? 
 ```
      
 
-  3. Rescale the variables so that they go from 0-100 instead of the original range.
-     Name the rescaled variables `*_pomp`.
-     
+3. Rescale the variables so that they go from 0-100 instead of the original range.Name the rescaled variables `*_pomp`.
+
+
 ```{r}
 rescaled_green <-
   total_green %>%
@@ -135,14 +120,11 @@ rescaled_green <-
          comp_pomp,
          intel_pomp,
          open_pomp)
-
-View(rescaled_green) # BMW: Same as above.
-
-summary(rescaled_green) # BMW: Same as above.
 ```
      
 
-  4. Make plots that illustrate the distributions of the 4 POMP-scored variables.
+4. Make plots that illustrate the distributions of the 4 POMP-scored variables.
+
   
 ```{r Q4 fig2, fig.height = 10, fig.width = 15, fig.align = "center"}
 green_histo <- ggplot(rescaled_green) +
@@ -169,13 +151,12 @@ open_histo <- ggplot(rescaled_green) +
                  bins = 25) +
   theme_classic()
 
-grid.arrange(green_histo,
+wrap_plots(green_histo,
              comp_histo,
              intel_histo,
-             open_histo) # BMW: We will get to this in a week, but check out the patchwork package for an elegant way to do this!
+             open_histo)
 ```
 
-<!-- BMW: Narrative discussion like this should go in Markdown, not code comments. -->
 
 The graphs show that these four variables have relatively normal distribution. 
 The data also tells us that, for comp and open, their distribution are slightly skewed left.
@@ -185,17 +166,16 @@ The data also tells us that, for comp and open, their distribution are slightly 
 Include trend lines for **students** and **non-students**.
 What do these plots show?
 
-<!-- BMW: You need a blank line between text and code chunks. -->
 
 ```{r Q5 fig2, fig.height = 10, fig.width = 15, fig.align = "center"}
 comp_scatter <-
   ggplot(rescaled_green,
          aes(x = comp_pomp,
              y = green_pomp,
-             color = student)) + # BMW: Reformatting for readability of code
+             color = student)) + 
   theme_bw() +
   geom_point(alpha = .5) +
-  geom_smooth(aes(group = student)) # BMW: Very nice.
+  geom_smooth(aes(group = student)) 
 
 intel_scatter <-
   ggplot(rescaled_green,
@@ -219,27 +199,16 @@ grid.arrange(comp_scatter,
              open_scatter)
 ```
 
+
 Intellect and openness have a stronger effect on the green reputation for students.
 The relationship between personality traits and green reputation correlate with students and non-students. 
 The higher the score on compassion, intellect, and openness, the higher the green reputation. 
 
-  6. Compare **green reputation** for students and non-students using a **rainfall plot** (bar + density + data points).
-  
-```{r Q6 fig2, fig.height = 10, fig.width = 15, fig.align = "center"}
-ggplot(rescaled_green,
-       aes(x = green_pomp,
-           color = student),
-       alpha = .5) +
-  geom_bar() +
-  geom_density() +
-  geom_point(aes(y = "identity", # BMW: This doesn't work. What are you trying to do here?
-                 color = student), # BMW: You are looking for fill, not color. color is for the outline, fill changes the fill color
-             alpha = .5)
-```
 
-<!-- BMW: This is not a rainfall plot as demonstrated in class. See below. -->
+6. Compare **green reputation** for students and non-students using a **rainfall plot** (bar + density + data points).
 
-```{r rainfall}
+
+```{r rainfall, Q6 fig2, fig.height = 10, fig.width = 15, fig.align = "center"}
 ggplot(rescaled_green) +
   aes(x = green_pomp,
       y = student,
@@ -260,8 +229,9 @@ ggplot(rescaled_green) +
 Non-students have a higher count on the green reputation scale than the students.
 Non-students have a slightly wider distribution on the green reputation scale.
 
-  7. Compute a summary table of means, SDs, medians, minima, and maxima for the four total scores for students and non-students.
-  
+7. Compute a summary table of means, SDs, medians, minima, and maxima for the four total scores for students and non-students.
+
+ 
 ```{r}
 rescaled_green %>%
   select(student, green_pomp,
@@ -283,13 +253,8 @@ rescaled_green %>%
     )
   ))
 ```
- 
-<!-- BMW: Narrative discussion like this should go in Markdown. Like you're writing an actual report, not in code comments. -->
-  
+
+
 Non-students have a higher green reputation mean, lower standard variance, higher median, and larger range in comparison with students. 
 Notably, non-students have a lower score on openness even though their minimum score is much higher than students. 
 Surprisingly, non-students had a higher minimum score on all personality traits than students.
-  
-<!-- BMW: Delete instruction text like this from your final report. -->
-
-In your assignment, prepare an RMarkdown file that includes both the coding and (for 4-7) narrative descriptions of your results.
