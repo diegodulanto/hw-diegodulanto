@@ -1,0 +1,47 @@
+Bibliography
+Immigrants Admitted to the United States, 2000
+
+This bibliography includes published and unpublished works that are related 
+to ICPSR study 3486. It includes works that are based on primary
+or secondary analysis of the data, or which describe or critique those
+data or the collection methodology. 
+
+If you publish a work or know of other works that are based on these data,
+please send the complete citation and name of the ICPSR study used to:
+icpsr-biblio-notify@umich.edu 
+
+
+1. Borjas, George J.; Katz, Lawrence F., "The evolution of the Mexican-born
+workforce in the United States." In Borjas, George J., Mexican Immigration
+to the United States. 13 - 55, Chicago, IL: University of Chicago
+Press,2007.
+Full text: http://www.nber.org/chapters/c0098
+
+2. Carr, Stacie; Tienda, Marta, "Family sponsorship and late-age
+immigration in aging America: Revised and expanded estimates of chained
+migration." Population Research and Policy Review. Dec 2013, 32, (6), 825 -
+849. DOI: 10.1007/s11113-013-9300-y
+Full text: http://www.nber.org/chapters/c0098
+
+3. Cohen, I. Glenn; Chen, Daniel L., "Trading-off reproductive technology
+and adoption: Does subsidizing IVF decrease adoption rates and should it
+matter?." Minnesota Law Review. 2010, 95, 485 - 577.
+Full text PDF: https://users.nber.org/~dlchen/papers/Trading_Off_Reproductive_Technology_and_Adoption_MinnesotaLR.pdf
+
+4. Dreher, Axel; Poutvaara, Panu, "Foreign students and migration to the
+United States." World Development. Aug 2011, 39, (8), 1294 - 1307. DOI:
+10.1016/j.worlddev.2010.12.001
+Full text PDF: https://users.nber.org/~dlchen/papers/Trading_Off_Reproductive_Technology_and_Adoption_MinnesotaLR.pdf
+
+5. Dreher, Axel; Poutvaara, Panu, "Student Flows and Migration: An
+Empirical Analysis." Helsinki Center of Economic Research Discussion
+Papers. 100, Helsinki, Finland: Helsinki Center of Economic Research, Mar
+2006.
+Full text: https://researchportal.helsinki.fi/en/publications/student-flows-and-migration-an-empirical-analysis
+
+6. Jaeger, David A., "Green cards and the location choices of immigrants in
+the United States, 1971-2000." In Chiswick, Barry R., Immigration: Trends,
+Consequences and Prospects for the United States. Research in Labor
+Economics. 131 - 183, New York, NY: JAI Press,2007. DOI: 10.1016/S0147-
+9121(07)00004-0
+Full text: https://researchportal.helsinki.fi/en/publications/student-flows-and-migration-an-empirical-analysis
