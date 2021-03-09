@@ -7,9 +7,9 @@ Diego A. Dulanto
 
 This folder will hold the necessary files for the final project.
 
-| Folder        | Description                                                           |
-|---------------|-----------------------------------------------------------------------|
-| Data          | This folder includes all the data for the final project               |
-| Output        | This folder includes tables, graphs, reports, etc.                    |
-| Admin         | This folder includes IRB materials and other administrative documents |
-| Documentation | This folder includes variable codebooks                               |
+| Folder | Description                                                           |
+|--------|-----------------------------------------------------------------------|
+| Data   | This folder includes all the data for the final project               |
+| Output | This folder includes tables, graphs, reports, etc.                    |
+| Admin  | This folder includes IRB materials and other administrative documents |
+| Doc    | This folder includes variable codebooks                               |
