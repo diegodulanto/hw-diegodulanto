@@ -11,9 +11,9 @@ output:
 
 | Variable | Type | Value |
 | ----------- | ----------- |
-| Month of Admission  | Numeric | 1-12 |
-| Year of Admission  | Numeric  | 1999-2000 |
-| Country of Birth  | Numeric | 1-230 |
+| Month of Admission | Numeric | 1-12 |
+| Year of Admission | Numeric | 1999-2000 |
+| Country of Birth | Numeric | 1-230 |
 | Age | Numeric | 0-99 |
 | Country of Last Permanent Residence | String | Ex. Peru |
 | Marital Status | Numeric | 1-9 |
