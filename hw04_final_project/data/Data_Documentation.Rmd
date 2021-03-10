@@ -1,5 +1,5 @@
 ---
-title: "Data Documentation"
+title: "hw04"
 author: "Diego A. Dulanto"
 date: "3/9/2021"
 output: 
@@ -50,5 +50,11 @@ print(immigrant_data)
 
 ```
 
+
+```{r}
+immigrant_data %>%
+  sort.list(partial = NULL, na.last = TRUE, decreasing = FALSE,
+          method = c("auto", "shell", "quick", "radix"))
+```
 
 
