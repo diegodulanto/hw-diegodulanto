@@ -3,6 +3,8 @@ Data Documentation
 Diego A. Dulanto
 3/9/2021
 
+### Data Descriptions
+
 | Variable                                    | Type    | Value           |
 |---------------------------------------------|---------|-----------------|
 | Month of Admission                          | Numeric | 1-12            |
