@@ -3,8 +3,8 @@ title: "Data Description"
 author: "Diego A. Dulanto"
 date: "3/9/2021"
 output: 
-  github_document: default
   html_document: default
+  github_document: default
 ---
 
 
