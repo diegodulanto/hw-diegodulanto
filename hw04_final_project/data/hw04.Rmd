@@ -4,7 +4,8 @@ author: "Diego A. Dulanto"
 date: "3/9/2021"
 output: 
   github_document: default
-  html_document: default
+  html_document: 
+    theme: paper
 ---
 
 ```{r setup}
@@ -13,6 +14,8 @@ library(tidyverse)
 library(ggplot2)
 library(readr)
 library(tibble)
+library(ggdist)
+library(gridExtra)
 ```
 
 
@@ -52,9 +55,33 @@ print(immigrant_data)
 
 
 ```{r}
+
+immigrant_data
+        col_types = cols(
+          'Month of Admission' = col_double(),
+          'Year of Admission' = col_double(),
+          'Country of Birth' = col_double(),
+          'Age' = col_double(),
+          'Country of Last Permanent Residence' = col_character(),
+          'Marital Status' = col_double(),
+          'State of Intended Residence' = col_double(),
+          'Metropolitan Area of Intended Residence' = col_double(),
+          'Labor Certification' = col_double(),
+          'Occupation' = col_double(),
+          'Sex' = col_double(),
+          'Country of Chargeability' = col_double(),
+          'Type of Case' = col_double(),
+          'Nonimmigrant class of entry' = col_double(),
+          'Nonimmigrant year of entry' = col_double(),
+          'Immigrant class of admission' = col_double(),
+          'Principal vs. Derivative Class of Admission' = col_double())
+
 immigrant_data %>%
-  sort.list(partial = NULL, na.last = TRUE, decreasing = FALSE,
-          method = c("auto", "shell", "quick", "radix"))
+  select("Month of Admission", "Country of Birth") %>%
+  ggplot() +
+  geom_jitter(aes(x = "Month of Admission", y = "Country of Birth"))
+
+print(immigrant_data)
 ```
 
 
