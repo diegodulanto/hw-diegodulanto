@@ -16,10 +16,10 @@ library(tibble)
 
 
 ```{r}
-here::here("hw-diegodulanto", "hw04_final_project", "data", "immigrant_data_2000.sav")
+here::here("data", "immigrant_data_2000.sav")
 
 (clevel <- haven::read_sav(
-  here::here("hw04_final_project", "data", "immigrant_data_2000.sav")
+  here::here("data", "immigrant_data_2000.sav")
 )
 )
 
