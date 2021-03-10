@@ -10,7 +10,7 @@ output:
 
 
 | Variable | Type | Value |
-| ----------- | ----------- |
+| ----------- | ----------- | ----------- |
 | Month of Admission | Numeric | 1-12 |
 | Year of Admission | Numeric | 1999-2000 |
 | Country of Birth | Numeric | 1-230 |
@@ -29,7 +29,7 @@ output:
 | Immigrant Class of Admission | Numeric | 1-29 |
 | Principal vs. Derivative Class of Admission | Numeric | 1, 2 |
 
-_*Missing data will be displayed as NA*_
+_Missing data will be displayed as NA_
 
 ```{r setup}
 library(haven)
