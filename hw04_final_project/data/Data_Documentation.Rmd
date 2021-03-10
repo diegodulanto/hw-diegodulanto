@@ -1,0 +1,37 @@
+---
+title: "Data Documentation"
+author: "Diego A. Dulanto"
+date: "3/9/2021"
+output: html_document
+---
+
+```{r setup}
+library(haven)
+library(tidyverse)
+library(ggplot2)
+library(readr)
+library(tibble)
+```
+
+
+
+```{r}
+here::here("hw-diegodulanto", "hw04_final_project", "data", "immigrant_data_2000.sav")
+
+(clevel <- haven::read_sav(
+  here::here("hw04_final_project", "data", "immigrant_data_2000.sav")
+)
+)
+
+
+
+```
+
+
+
+```{r}
+
+
+```
+
+
