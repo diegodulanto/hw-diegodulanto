@@ -53,8 +53,30 @@ print(immigrant_data)
 
 ```
 
+```{r}
+#Structuring Data
+
+as_tibble(immigrant_data)
+
+str(immigrant_data)
+```
+
 
 ```{r}
+#Summarizing Data
+immigrant_data %>%
+  summarise(`Month of Admission`, `Country of Birth`, Age)
+
+immigrant_data %>%
+  group_by(`Country of Birth`)
+  
+
+```
+
+
+
+```{r fig.height = 10, fig.width = 15, fig.align = "center"}
+#Plotting Data
 
 immigrant_data
         col_types = cols(
@@ -76,12 +98,16 @@ immigrant_data
           'Immigrant class of admission' = col_double(),
           'Principal vs. Derivative Class of Admission' = col_double())
 
+print(immigrant_data)
+        
 immigrant_data %>%
   select("Month of Admission", "Country of Birth") %>%
   ggplot() +
-  geom_jitter(aes(x = "Month of Admission", y = "Country of Birth"))
+  aes(x = "Month of Admission", y = "Country of Birth") +
+  geom_jitter(alpha = .005) +
+  theme_classic()
 
-print(immigrant_data)
+
 ```
 
 
