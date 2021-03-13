@@ -1,18 +1,15 @@
 ---
 title: "Beautifying RMarkdown"
-params:
-  manufacturer: "audi"
-author: "Diego A. Dulanto"
+author: "Diego Dulanto"
 date: "`r format(Sys.Date(), '%b %d %Y')`"
-output:
+output: 
   html_document:
     theme: cerulean
     highlight: zenburn
     code_folding: hide
-    toc: true
+    toc: true 
     toc_float: true
     toc_depth: 3
-  word_document: default
 ---
 
 
@@ -30,13 +27,12 @@ Add a code chunk that uses the `ggplot2::mpg` dataset to plot `displ` against `h
 
 ```{r, echo=knitr::is_html_output(), fig.width = 10, fig.height = 10, dev="svglite"}
 mpgplot <- ggplot2::mpg %>% 
-  filter(manufacturer == params$manufacturer) %>% 
   ggplot() +
   aes(x = displ,
       y = hwy,
       color = manufacturer,
       fill = manufacturer,
-      shape = as.factor(year)) +
+      shape =as.factor(year)) +
   geom_point()
 
 mpgplot
@@ -44,7 +40,7 @@ mpgplot
 
 ```
 
-The overall relationship between highway and displ seems to be negative for the audi manufacturer.
+The overall relationship between highway and displ seems to be negative. The chevrolet manufacturer seems to have an outlier for the year 2008.
 
 \newpage
 
