@@ -1,15 +1,25 @@
 ---
 title: "Beautifying RMarkdown"
-author: "Your Name Here"
-date: "1990-05-31"
-output: html_document
+params:
+  manufacturer: "audi"
+author: "Diego A. Dulanto"
+date: "`r format(Sys.Date(), '%b %d %Y')`"
+output:
+  html_document:
+    theme: cerulean
+    highlight: zenburn
+    code_folding: hide
+    toc: true
+    toc_float: true
+    toc_depth: 3
+  word_document: default
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
 
 library(tidyverse)
-library(ggplot2)
 ```
 
 ## The Surprising Truth about `mpg`
@@ -18,33 +28,45 @@ library(ggplot2)
 
 Add a code chunk that uses the `ggplot2::mpg` dataset to plot `displ` against `hwy` (highway mpg), with points colored by `manufacturer` and shaped by `year`.
 
-```{r}
-mpg <- ggplot2::mpg
-
-mpg %>%
+```{r, echo=knitr::is_html_output(), fig.width = 10, fig.height = 10, dev="svglite"}
+mpgplot <- ggplot2::mpg %>% 
+  filter(manufacturer == params$manufacturer) %>% 
   ggplot() +
-  aes(displ, hwy,
-      fill = "manufacturer"
-      ) +
-  geom_jitter() +
-  geom_point(aes(shape = factor(year)))
+  aes(x = displ,
+      y = hwy,
+      color = manufacturer,
+      fill = manufacturer,
+      shape = as.factor(year)) +
+  geom_point()
+
+mpgplot
 
 
 ```
 
+The overall relationship between highway and displ seems to be negative for the audi manufacturer.
+
+\newpage
 
 ### `mpg`: The Table
 
 Add a second code chunk that gives a summary table with the **mean** and **sd** for `displ` and `hwy` for each year.
 
-```{r}
-mpg %>%
-  filter(year) %>%
-  
-  
+```{r, echo=knitr::is_html_output()}
+mpgtable <- ggplot2::mpg %>%
+  group_by(year) %>%
+  summarize(across(c(displ, hwy),
+                   list(
+                     mean = ~mean(.x, na.rm = TRUE),
+                     sd = ~sd(.x, na.rm = TRUE)
+                   )))
 
+knitr::kable(mpgtable)
 
 ```
+
+The mean and standard deviation for displ increased from 1999 to 2008. 
+The mean highway had a slight increase and the standard deviation a slight decrease from 1999-2008.
 
 
 Around each piece of output, add a brief description.
