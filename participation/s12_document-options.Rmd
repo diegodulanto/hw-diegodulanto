@@ -2,13 +2,16 @@
 title: "Beautifying RMarkdown"
 author: "Diego Dulanto"
 date: "`r format(Sys.Date(), '%b %d %Y')`"
-output: 
+output:
+  word_document:
+    toc: yes
+    toc_depth: '3'
   html_document:
     theme: cerulean
     highlight: zenburn
     code_folding: hide
-    toc: true 
-    toc_float: true
+    toc: yes
+    toc_float: yes
     toc_depth: 3
 ---
 
