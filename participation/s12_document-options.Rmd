@@ -28,7 +28,7 @@ library(tidyverse)
 
 Add a code chunk that uses the `ggplot2::mpg` dataset to plot `displ` against `hwy` (highway mpg), with points colored by `manufacturer` and shaped by `year`.
 
-```{r, echo=knitr::is_html_output(), fig.width = 10, fig.height = 10, dev="svglite"}
+```{r, echo=knitr::is_html_output(), fig.width = 10, fig.height = 10}
 mpgplot <- ggplot2::mpg %>% 
   ggplot() +
   aes(x = displ,
