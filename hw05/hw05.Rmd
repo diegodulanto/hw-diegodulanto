@@ -2,7 +2,13 @@
 title: "Consequences of Covid-19 for Candle Critiques"
 author: "Your Name Here"
 date: "3/22/2021"
-output: html_document
+output: 
+  github_document:
+    keep_md: true
+  html_document:
+    code_folding: hide
+    highlight: tango
+    theme: paper
 ---
 
 For this assignment, you will produce a report exploring the impact of Covid-19 on scented candle ratings.
@@ -56,6 +62,8 @@ Interpret these graphs.
 What do they show about scented candles over the time period?
 
 ```{r}
+
+
 
 ```
 
