@@ -33,6 +33,15 @@ Each dataset contains the following information for the Top 3 selling scented or
 
 ```{r setup, include=FALSE}
 library(dplyr)
+library(tidyverse)
+library(readxl)
+
+Scented_all <- read_excel(here::here("hw05/data/Scented_all.xlsx"))
+view(Scented_all)
+
+Unscented_all <- read_excel(here::here("hw05/data/Unscented_all.xlsx"))
+view(Unscented_all)
+
 ```
 
 
@@ -62,9 +71,24 @@ Interpret these graphs.
 What do they show about scented candles over the time period?
 
 ```{r}
-
-
-
+Scented_all %>%
+  filter(Date > "2017-01-01") %>%
+  group_by(Date) %>%
+  mutate(Avg_Rating = mean(Rating)) %>%
+  ggplot(
+    aes(x = as.Date(Date),
+        y = Avg_Rating,
+        shape = as.factor(CandleID),
+        color = as.factor(CandleID),
+        fill = as.factor(CandleID))
+    ) +
+  geom_point(alpha = .5, shape = 1, color = "pink") +
+  scale_x_date(name = "Date", 
+               date_breaks = "6 months",
+               date_labels = "%m-%Y") +
+  geom_smooth(method = "loess") +
+  geom_vline(xintercept = as.numeric(as.Date("2020-01-20"), 
+                                     linetype = "dashed"))
 ```
 
 
