@@ -28,7 +28,14 @@ here::here("data", "immigrant_data_2000.sav")
 )
 )
 
-##Renaming columns
+## Renaming columns
+
+# WDG: Check out the rename() function (more readable). Also, colnames() is a list of the column names. You can just assign a vector of values instead of doing element-wise change like you're doing
+# Example:
+# colnames(immigrant_data) <- c("month_of_admissions" ...)
+
+# Also, using space as delimiters is usually not as friendly as using "_" underscores.
+
 
 colnames(immigrant_data)[colnames(immigrant_data) == "V1"] <- "Month of Admission"
 colnames(immigrant_data)[colnames(immigrant_data) == "V2"] <- "Year of Admission"
@@ -50,12 +57,12 @@ colnames(immigrant_data)[colnames(immigrant_data) == "V17"] <- "Principal vs. De
 
 
 print(immigrant_data)
-
 ```
 
 ```{r}
-#Structuring Data
+# Structuring Data
 
+# WDG: This doesn't do anything expect print the dataframe as a tibble. It doesn't save it as a tibble so this won't have any effects.
 as_tibble(immigrant_data)
 
 str(immigrant_data)
@@ -63,51 +70,51 @@ str(immigrant_data)
 
 
 ```{r}
-#Summarizing Data
+# Summarizing Data
 immigrant_data %>%
   summarise(`Month of Admission`, `Country of Birth`, Age)
 
+
+# WDG: `group_by() effects are only functional. In other words, this doesn't have any effect until you start manipulating the data.
 immigrant_data %>%
   group_by(`Country of Birth`)
-  
-
 ```
 
 
 
 ```{r fig.height = 10, fig.width = 15, fig.align = "center"}
-#Plotting Data
+# Plotting Data
 
 immigrant_data
-        col_types = cols(
-          'Month of Admission' = col_double(),
-          'Year of Admission' = col_double(),
-          'Country of Birth' = col_double(),
-          'Age' = col_double(),
-          'Country of Last Permanent Residence' = col_character(),
-          'Marital Status' = col_double(),
-          'State of Intended Residence' = col_double(),
-          'Metropolitan Area of Intended Residence' = col_double(),
-          'Labor Certification' = col_double(),
-          'Occupation' = col_double(),
-          'Sex' = col_double(),
-          'Country of Chargeability' = col_double(),
-          'Type of Case' = col_double(),
-          'Nonimmigrant class of entry' = col_double(),
-          'Nonimmigrant year of entry' = col_double(),
-          'Immigrant class of admission' = col_double(),
-          'Principal vs. Derivative Class of Admission' = col_double())
 
-print(immigrant_data)
-        
+# WDG: Great you've created the col_types; however, its not applied to the data.
+col_types <- cols(
+  "Month of Admission" = col_double(),
+  "Year of Admission" = col_double(),
+  "Country of Birth" = col_double(),
+  "Age" = col_double(),
+  "Country of Last Permanent Residence" = col_character(),
+  "Marital Status" = col_double(),
+  "State of Intended Residence" = col_double(),
+  "Metropolitan Area of Intended Residence" = col_double(),
+  "Labor Certification" = col_double(),
+  "Occupation" = col_double(),
+  "Sex" = col_double(),
+  "Country of Chargeability" = col_double(),
+  "Type of Case" = col_double(),
+  "Nonimmigrant class of entry" = col_double(),
+  "Nonimmigrant year of entry" = col_double(),
+  "Immigrant class of admission" = col_double(),
+  "Principal vs. Derivative Class of Admission" = col_double()
+)
+
+
+
+# WDG: A title is very important when it comes to graphs. Try and answer the question: "What am I looking at?" when thinking of a title.
 immigrant_data %>%
   select("Month of Admission", "Country of Birth") %>%
   ggplot() +
   aes(x = "Month of Admission", y = "Country of Birth") +
-  geom_jitter(alpha = .005) +
+  geom_point(alpha = .005) +
   theme_classic()
-
-
 ```
-
-
