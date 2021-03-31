@@ -117,7 +117,9 @@ plot_unscented <- Unscented_all %>%
   ggtitle("Average Unscented Candle Ratings") + 
   guides(x = guide_axis(n.dodge = 2))
 
-plot_scented + plot_unscented
+plot_scented
+
+plot_unscented
 
 ```
 The scented candle plot shows an increase from April 2019 to October 2019, then it drastically decreased from October 2019 to October 2020.
