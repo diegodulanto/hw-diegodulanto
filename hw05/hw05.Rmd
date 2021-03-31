@@ -3,11 +3,11 @@ title: "Consequences of Covid-19 for Candle Critiques"
 author: "Diego A. Dulanto"
 date: "`r format(Sys.Date(), '%b %d %Y')`"
 output: 
-  github_document: default
   html_document:
     code_folding: hide
     highlight: tango
     theme: paper
+  github_document: default
 ---
 
 
