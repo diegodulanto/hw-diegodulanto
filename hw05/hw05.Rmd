@@ -1,7 +1,7 @@
 ---
 title: "Consequences of Covid-19 for Candle Critiques"
-author: "Your Name Here"
-date: "3/22/2021"
+author: "Diego A. Dulanto"
+date: "`r format(Sys.Date(), '%b %d %Y')`"
 output: 
   github_document:
     keep_md: true
@@ -9,6 +9,9 @@ output:
     code_folding: hide
     highlight: tango
     theme: paper
+    toc: true
+    toc_float: true
+    toc_depth: 3
 ---
 
 For this assignment, you will produce a report exploring the impact of Covid-19 on scented candle ratings.
@@ -32,15 +35,13 @@ Each dataset contains the following information for the Top 3 selling scented or
   4. `Review`: For the scented candles, the text of the review.
 
 ```{r setup, include=FALSE}
-library(dplyr)
 library(tidyverse)
 library(readxl)
 library(gridExtra)
-library(RColorBrewer)
-library(colorspace)
+library(Hmisc)
+theme_set(theme_classic())
 
 Scented_all <- read_excel(here::here("hw05/data/Scented_all.xlsx"))
-
 Unscented_all <- read_excel(here::here("hw05/data/Unscented_all.xlsx"))
 
 ```
@@ -71,6 +72,7 @@ Note: The raw data are **individual reviews** so you will need to compute summar
 Interpret these graphs.
 What do they show about scented candles over the time period?
 
+
 ```{r}
 plot_scented <- Scented_all %>%
   filter(Date > "2017-01-01") %>%
@@ -78,43 +80,53 @@ plot_scented <- Scented_all %>%
   mutate(Avg_Rating = mean(Rating)) %>%
   ggplot(
     aes(x = as.Date(Date),
-        y = Avg_Rating,
-        shape = as.factor(CandleID),
-        color = as.factor(CandleID),
-        fill = as.factor(CandleID))
+        y = Avg_Rating)
     ) +
-  geom_point(alpha = .5, shape = 1, color = "pink") +
+  geom_point(alpha = .5, 
+             shape = 1, 
+             color = "purple") +
   scale_x_date(name = "Date", 
                date_breaks = "6 months",
                date_labels = "%m-%Y") +
-  geom_smooth(method = "loess") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-20"), linetype = "dashed")) +
+  geom_smooth(method = "loess",
+              color = "blue") +
+  geom_vline(xintercept = as.numeric(as.Date("2020-01-20")), 
+                                     linetype = "dashed") +
   scale_y_continuous(name = "Average Rating") +
   theme_minimal() +
-  ggtitle("Average Scented Candle Reviews") + 
+  ggtitle("Average Scented Candle Ratings") + 
   guides(x = guide_axis(n.dodge = 2))
 
 plot_unscented <- Unscented_all %>%
   filter(Date > "2017-01-01") %>%
-  group_by(Date) %>% 
-  mutate(Avg_Rating = mean(Rating)) %>% 
+  group_by(Date) %>%
+  mutate(Avg_Rating = mean(Rating)) %>%
   ggplot(
     aes(x = as.Date(Date),
-        y = Avg_Rating
-  )) + 
-  geom_point(alpha = .5, color = "dark green", shape = 1) +
-  scale_x_date(name = "Date", date_breaks = "6 months", date_labels = "%m-%Y") +
-  geom_smooth(method = "loess", color = "gold") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-20")), linetype = "dashed") + 
-  scale_y_continuous(name = "Average Rating") + 
+        y = Avg_Rating)
+    ) +
+  geom_point(alpha = .5, 
+             shape = 1, 
+             color = "purple") +
+  scale_x_date(name = "Date", 
+               date_breaks = "6 months",
+               date_labels = "%m-%Y") +
+  geom_smooth(method = "loess",
+              color = "blue") +
+  geom_vline(xintercept = as.numeric(as.Date("2020-01-20")), 
+                                     linetype = "dashed") +
+  scale_y_continuous(name = "Average Rating") +
   theme_minimal() +
-  ggtitle("Average Unscented Candle Reviews") +
+  ggtitle("Average Unscented Candle Ratings") + 
   guides(x = guide_axis(n.dodge = 2))
 
-plot_scented
-plot_unscented
+plot_scented + plot_unscented
 
 ```
+The scented candle plot shows an increase from April 2019 to October 2019, then it drastically decreased from October 2019 to October 2020.
+The unscented candle plot showed a slight increase over time and a slight decrease beginning October 2019 to October 2020.
+This trend began after the cutoff line on January 2020.
+This significant and slight decreases in average ratings could be related to individuals who have contracted COVID and lost their sense of smell.
 
 
 ## Part 2: Combined plot
@@ -137,20 +149,22 @@ plot_combined <- candles_full %>%
   mutate(Avg_Rating = mean(Rating)) %>% 
   ggplot(
     aes(x = as.Date(Date),
-        y = Avg_Rating,
-        shape = Scented,
-        color = Scented,
-        fill = Scented
+        y = Avg_Rating
   )) + 
-  geom_point(alpha = .3) +
-  scale_x_date(name = "Date", date_breaks = "6 months", date_labels = "%m-%Y") +
-  geom_smooth(method = "loess") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-20")), linetype = "dashed") +
+  geom_point(alpha = .3, 
+             shape = 1, 
+             color = "purple") +
+  scale_x_date(name = "Date", 
+               date_breaks = "6 months", 
+               date_labels = "%m-%Y") +
+  geom_smooth(method = "loess",
+              color = "blue") +
+  geom_vline(xintercept = as.numeric(as.Date("2020-01-20")), 
+             linetype = "dashed") +
   scale_y_continuous(name = "Average Rating") +
   theme_minimal() +
-  ggtitle("Average Reviews For Scented and Unscented Candles") + 
-  guides(x = guide_axis(n.dodge = 2)) + 
-  scale_color_brewer(palette = "Dark2")
+  ggtitle("Average Ratings For Scented and Unscented Candles") + 
+  guides(x = guide_axis(n.dodge = 2))
 
 plot_combined
 
@@ -158,6 +172,8 @@ plot_combined
 
 Which of these two sets of plots do you find easier to interpret?
 
+The combined plot is much easier to interpret, especially if you are trying to compare the ratings of unscented and scented candles.
+Having the data all on the same graph makes it easier to make a comparison.
 
 ## Part 3: Proportion of reviews mentioning "no scent"
 
@@ -197,12 +213,36 @@ str_no_scent <- function(x){
   	)
   )
 }
+
+Scented_all$CodeReview <- str_no_scent(Scented_all$Review)
+Scented_all$CodedReview_f <- factor(Scented_all$CodeReview, labels = c("scent", "noscent"))
+print(Scented_all)
 ```
 
 ```{r}
+plot2 <- Scented_all %>%
+  filter(Date >= "2019-01-01") %>%
+  mutate(month = lubridate::floor_date(Date, 
+                                       "month")
+         ) %>% 
+  group_by(month, 
+           CodedReview_f) %>% 
+  ggplot() +
+  aes(x = month, 
+      y = (..count..)/sum(..count..)) +
+  geom_bar(position = "dodge", 
+           fill = "violet") +
+  stat_summary(aes(y = CodedReview_f), 
+               fun.data = mean_cl_normal)
+
+plot2
 
 ```
 
 What pattern do you see?
 Is there a trend over time regarding smell-related reviews? 
 How does 2020 compare to 2019?
+
+There are more ratings that say that the candles have no scent than ratings that say that the candles have a scent.
+The ratings saying the candles had no scent drastically increased from 2019 into 2020.
+There is a large difference from 2019 to 2020 based on ratings that indicate whether there is a scent or not.
