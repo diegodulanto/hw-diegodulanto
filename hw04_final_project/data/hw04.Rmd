@@ -82,7 +82,7 @@ immigrant_data %>%
 
 
 
-```{r fig.height = 10, fig.width = 15, fig.align = "center"}
+```{r}
 # Plotting Data
 
 immigrant_data
@@ -115,6 +115,6 @@ immigrant_data %>%
   select("Month of Admission", "Country of Birth") %>%
   ggplot() +
   aes(x = "Month of Admission", y = "Country of Birth") +
-  geom_point(alpha = .005) +
+  geom_point(alpha = .05) +
   theme_classic()
 ```
