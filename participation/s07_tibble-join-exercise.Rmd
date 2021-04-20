@@ -54,7 +54,7 @@ Let's take a look at them (after minor modifications by renaming and shuffling):
 
 ```{r}
 release_date %>% 
-  FILL_THIS_IN(album, by = FILL_THIS_IN)
+  left_join(album, by = c("song", "artist_name"))
 ```
 
 2. Go ahead and add the corresponding albums to the `release_date` tibble, being sure to 
@@ -69,14 +69,14 @@ release_date %>%
 
 ```{r}
 release_date %>% 
-  FILL_THIS_IN(album, by = "song")
+  anti_join(album, by = "song")
 ```
 
 4. Which artists are in `release_date`, but not in `album`?
 
 ```{r}
 release_date %>% 
-  anti_join(album, by = "FILL_THIS_IN")
+  anti_join(album, by = "artist_name")
 ```
 
 
@@ -84,8 +84,8 @@ release_date %>%
    available in one tibble. What would you do?
 
 ```{r}
-FILL_THIS_IN %>% 
-  FILL_THIS_IN(FILL_THIS_IN, by = "song")
+release_date %>% 
+  full_join(album, by = "song")
 ```
 
 
@@ -103,7 +103,8 @@ retk <- read_csv("https://raw.githubusercontent.com/jennybc/lotr-tidy/master/dat
 1. Combine these into a single tibble.
 
 ```{r}
-FILL_THIS_IN(fell, FILL_THIS_IN)
+full_join(fell, ttow, by = c("Film", "Race", "Female", "Male")) %>%
+  full_join(retk, by = c("Film", "Race", "Female", "Male"))
 ```
 
 2. Which races are present in "The Fellowship of the Ring" (`fell`), but not in 
@@ -112,7 +113,7 @@ FILL_THIS_IN(fell, FILL_THIS_IN)
 ```{r}
 fell %>% 
   anti_join(ttow, by = "Race") %>% 
-  FILL_THIS_IN(FILL_THIS_IN, by = "Race")
+  anti_join(retk, by = "Race")
 ```
 
 
