@@ -90,10 +90,14 @@ w1_child %>%
    Which families have child data but not parent data in Wave 2?
 
 ```{r}
-anti_join(w2_child, w2_parent, 
+missing_child_data <- 
+   anti_join(w2_child, w2_parent, 
           by = "family_id")
-anti_join(w2_parent, w2_child, 
+missing_parent_data <- 
+   anti_join(w2_parent, w2_child, 
           by = "family_id")
+missing_child_data
+missing_parent_data
 ```
 
 
@@ -101,7 +105,15 @@ anti_join(w2_parent, w2_child,
    (Hint: You might need to look at Wave 1 as well.)
 
 ```{r}
-
+w1 <- full_join(w1_child, w1_parent, 
+                        by="family_id", 
+                        suffix=c("_w1_child","_w1_parent"))
+w2 <- full_join(w2_child, w2_parent, 
+                        by="family_id", 
+                        suffix=c("_w2_child","_w2_parent"))
+missing_data <-anti_join (w1, w2, 
+                          by="family_id")
+missing_data
 ```
 
 
