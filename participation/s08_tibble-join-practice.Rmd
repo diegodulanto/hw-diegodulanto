@@ -45,7 +45,7 @@ w2_parent <- read_csv("C:\\Users\\Diego Dulanto\\OneDrive\\Documents\\GitHub\\hw
    Keep only participants with complete data in both waves.
    Indicate which wave the data came from by setting the `suffix` argument.
 
-```{r}
+```{r merging child data}
 child_data <- 
    inner_join(w1_child, w2_child, 
            by = "family_id", 
@@ -58,7 +58,7 @@ child_data
    Keep only participants that have child ratings, whether or not they have parent data.
    Indicate which person the data came from by setting the `suffix` argument.
 
-```{r}
+```{r merging wave 2 child and parent data}
 w2_data <- 
    left_join(w2_child, w2_parent, 
           by = "family_id", 
@@ -71,7 +71,7 @@ w2_data
    Keep all participants.
    Indicate which wave and person the data came from by setting the `suffix` argument.
 
-```{r}
+```{r merging all data}
 w1_child %>%
    full_join(w1_parent, 
              by = "family_id", 
@@ -89,7 +89,7 @@ w1_child %>%
    Which families have parent data but not child data in Wave 2?
    Which families have child data but not parent data in Wave 2?
 
-```{r}
+```{r id missing wave 2 data}
 missing_child_data <- 
    anti_join(w2_child, w2_parent, 
           by = "family_id")
@@ -104,14 +104,14 @@ missing_parent_data
 5. Which families are missing both parent and child data in Wave 2?
    (Hint: You might need to look at Wave 1 as well.)
 
-```{r}
+```{r id missing both wave 2 data}
 w1 <- full_join(w1_child, w1_parent, 
                         by="family_id", 
                         suffix=c("_w1_child","_w1_parent"))
 w2 <- full_join(w2_child, w2_parent, 
                         by="family_id", 
                         suffix=c("_w2_child","_w2_parent"))
-missing_data <-anti_join (w1, w2, 
+missing_data <- anti_join(w1, w2, 
                           by="family_id")
 missing_data
 ```
