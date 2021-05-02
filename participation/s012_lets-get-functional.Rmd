@@ -6,9 +6,10 @@ Today, we are going to cover two important topics:
   1. Using a "functional programming" approach to make your code more efficient and avoid "repeating yourself"—copying and pasting essentially the same code over and over again 
   2. As part of the functional programming approach, how to write your own functions in R to do useful things.
      
-```{r}
+```{r setup}
 library(tidyverse)
 library(correlation)
+library(dplyr)
 ```
 
 
@@ -261,6 +262,13 @@ Prepare an individualized report for each person presenting the following inform
 
   1. Their mean score on each of the Big Five scales.
 ```{r}
+mean_report <- function(.data, rowid, variables) {
+  Means <- .data %>% 
+    slice(rowid) %>% 
+    summarize(across(all_of(variables), list(mean = mean), na.rm = TRUE))
+  return(Means)
+  }
+mean_report(bfi_mean, 10, big_five)
 
 ```
 
