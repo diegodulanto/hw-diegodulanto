@@ -1,14 +1,24 @@
 ---
 title: "hw04"
 author: "Diego A. Dulanto"
-date: "3/9/2021"
-output: 
-  github_document: default
-  html_document: 
-    theme: paper
+date: "`r format(Sys.Date(), '%b %d %Y')`"
+output:
+    html_document:
+        theme: paper
+    github_document: default
+editor_options: 
+  chunk_output_type: console
+  
 ---
 
-```{r setup}
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Final Project Introduction
+
+
+```{r load packages, include=FALSE}
 library(haven)
 library(tidyverse)
 library(ggplot2)
@@ -20,52 +30,47 @@ library(gridExtra)
 
 
 
-```{r}
+```{r importing data}
 here::here("data", "immigrant_data_2000.sav")
 
 (immigrant_data <- haven::read_sav(
-  here::here("data", "immigrant_data_2000.sav")
+  here::here("Final Project", "data", "immigrant_data_2000.sav")
 )
 )
 
 ## Renaming columns
 
-# WDG: Check out the rename() function (more readable). Also, colnames() is a list of the column names. You can just assign a vector of values instead of doing element-wise change like you're doing
-# Example:
-# colnames(immigrant_data) <- c("month_of_admissions" ...)
-
-# Also, using space as delimiters is usually not as friendly as using "_" underscores.
-
-
-colnames(immigrant_data)[colnames(immigrant_data) == "V1"] <- "Month of Admission"
-colnames(immigrant_data)[colnames(immigrant_data) == "V2"] <- "Year of Admission"
-colnames(immigrant_data)[colnames(immigrant_data) == "V3"] <- "Country of Birth"
+colnames(immigrant_data)[colnames(immigrant_data) == "V1"] <- "Month_of_Admission"
+colnames(immigrant_data)[colnames(immigrant_data) == "V2"] <- "Year_of_Admission"
+colnames(immigrant_data)[colnames(immigrant_data) == "V3"] <- "Country_of_Birth"
 colnames(immigrant_data)[colnames(immigrant_data) == "V4"] <- "Age"
-colnames(immigrant_data)[colnames(immigrant_data) == "V5"] <- "Country of Last Permanent Residence"
-colnames(immigrant_data)[colnames(immigrant_data) == "V6"] <- "Marital Status"
-colnames(immigrant_data)[colnames(immigrant_data) == "V7"] <- "State of Intended Residence"
-colnames(immigrant_data)[colnames(immigrant_data) == "V8"] <- "Metropolitan Area of Intended Residence"
-colnames(immigrant_data)[colnames(immigrant_data) == "V9"] <- "Labor Certification"
+colnames(immigrant_data)[colnames(immigrant_data) == "V5"] <- "Country_of_Last_Permanent_Residence"
+colnames(immigrant_data)[colnames(immigrant_data) == "V6"] <- "Marital_Status"
+colnames(immigrant_data)[colnames(immigrant_data) == "V7"] <- "State_of_Intended_Residence"
+colnames(immigrant_data)[colnames(immigrant_data) == "V8"] <- "Metropolitan_Area_of_Intended_Residence"
+colnames(immigrant_data)[colnames(immigrant_data) == "V9"] <- "Labor_Certification"
 colnames(immigrant_data)[colnames(immigrant_data) == "V10"] <- "Occupation"
 colnames(immigrant_data)[colnames(immigrant_data) == "V11"] <- "Sex"
-colnames(immigrant_data)[colnames(immigrant_data) == "V12"] <- "Country of Chargeability"
-colnames(immigrant_data)[colnames(immigrant_data) == "V13"] <- "Type of Case"
-colnames(immigrant_data)[colnames(immigrant_data) == "V14"] <- "Nonimmigrant class of entry"
-colnames(immigrant_data)[colnames(immigrant_data) == "V15"] <- "Nonimmigrant year of entry"
-colnames(immigrant_data)[colnames(immigrant_data) == "V16"] <- "Immigrant class of admission"
-colnames(immigrant_data)[colnames(immigrant_data) == "V17"] <- "Principal vs. Derivative Class of Admission"
+colnames(immigrant_data)[colnames(immigrant_data) == "V12"] <- "Country_of_Chargeability"
+colnames(immigrant_data)[colnames(immigrant_data) == "V13"] <- "Type_of_Case"
+colnames(immigrant_data)[colnames(immigrant_data) == "V14"] <- "Nonimmigrant_class_of_entry"
+colnames(immigrant_data)[colnames(immigrant_data) == "V15"] <- "Nonimmigrant_year_of_entry"
+colnames(immigrant_data)[colnames(immigrant_data) == "V16"] <- "Immigrant_class_of_admission"
+colnames(immigrant_data)[colnames(immigrant_data) == "V17"] <- "Principal_vs_Derivative_Class_of_Admission"
 
 
 print(immigrant_data)
 ```
 
+## Data Cleaning
+
+
+
 ```{r}
 # Structuring Data
 
-# WDG: This doesn't do anything expect print the dataframe as a tibble. It doesn't save it as a tibble so this won't have any effects.
-as_tibble(immigrant_data)
+devtools::session_info()
 
-str(immigrant_data)
 ```
 
 
