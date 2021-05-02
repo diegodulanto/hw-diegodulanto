@@ -1,0 +1,56 @@
+File Manifest for ICPSR 3486
+
+United States Department of Justice, Immigration and Naturalization
+Service. IMMIGRANTS ADMITTED TO THE UNITED STATES, 2000. ICPSR03486-v2.
+Washington, DC: U.S. Dept. of Justice, Immigration and Naturalization
+Service [producer], 2002. Ann Arbor, MI: Inter-university Consortium for
+Political and Social Research [distributor], 2007-11-27.
+http://doi.org/10.3886/ICPSR03486.v2
+
+Details on the version history can be found below the file listings.
+
+
+Study-level Documentation
+
+    Filename                            Record  Record    Var.    Date        MD5
+                                        Length  Count     Count   Updated     Checksum
+
+    03486-descriptioncitation.pdf       -       -         -       2014-07-03  -
+
+    03486-related_literature.txt        -       -         -       daily       -
+
+    03486-manifest.txt                  -       -         -       daily       -
+
+
+DS0001 Immigrants Admitted to the United States, 2000
+
+    Filename                            Record  Record    Var.    Date        MD5
+                                        Length  Count     Count   Updated     Checksum
+
+    03486-0001-Codebook.pdf             -       -         -       2007-11-27  906dee47a2e0d41028e34bd393d90170
+
+    03486-0001-Data.dta                 -       849,386   17      2007-11-27  d5b7fc9e8c7bd4ec84dd1af242f69fd9
+
+    03486-0001-Data.sav                 -       849,386   17      2007-11-27  c6b9173131cefd4639658b0cb2889c0b
+
+    03486-0001-Data.stc                 -       849,386   17      2007-11-27  7c8ea23ba85e964ece4aa70cadddb448
+
+    03486-0001-Data.tsv                 -       849,386   17      2007-11-27  da94b730514b2aa1c01b118d08626ee7
+
+    03486-0001-Data.txt                 94      849,386   17      2007-11-27  7449d8bcddc0e5bf4b769a6ba55c4251
+
+    03486-0001-Setup.dct                -       -         -       2007-11-27  926f28596a527600aa54555c54189bea
+
+    03486-0001-Setup.do                 -       -         -       2007-11-27  b02aef0ac9e503db56034708e70f276e
+
+    03486-0001-Setup.sas                -       -         -       2007-11-27  3f06024b0d83c8225d23019c465d9a37
+
+    03486-0001-Setup.sps                -       -         -       2007-11-27  b19ef897a06e3d2bb61819d49f0536c6
+
+    03486-0001-Supplemental_syntax.sas  -       -         -       2007-11-27  dcf4edcc2e5eda697fd9d5f244b0dc70
+
+
+Version History
+
+2007-11-27 SAS, SPSS, and Stata setup files, and  SAS and Stata
+supplemental syntax files were added to this data collection.

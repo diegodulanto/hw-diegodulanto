@@ -1,0 +1,17 @@
+Bibliography
+Immigrants Admitted to the United States Series
+
+This bibliography includes published and unpublished works that are
+related to ICPSR series 121. It includes works that are based on
+primary or secondary analysis of the data, or which describe or critique
+those data or the collection methodology. This list represents all items
+known to ICPSR as of 2019-05-21.
+
+If you publish a work or know of other works that are based on these data,
+please send the complete citation and name of the ICPSR series used to:
+icpsr-biblio-notify@umich.edu 
+
+
+1. Phillips, Julie A.; Massey, Douglas S., "The new labor market:
+Immigrants and wages after IRCA." Demography. May 1999, 36, (2), 233 - 246.
+Full text: http://www.jstor.org/stable/2648111
