@@ -113,18 +113,19 @@ print(immigrant_data)
 ```
 
 
-```{r}
+```{r summary, echo=TRUE}
 # Summarizing Data
-immigrant_data %>%
-  summarise(Month_of_Admission, Country_of_Birth, Age)
 
-immigrant_data %>%
-  filter(Country_of_Birth == 224, na.rm=TRUE) %>%
+peru_averages <- immigrant_data %>%
+  rowwise() %>%
+  summarise(Month_of_Admission, Country_of_Birth, Age) %>%
+  filter(Country_of_Birth == 224, na.rm=FALSE) %>%
   mutate(
-    Age=mean(),
-    Month_of_Admission=mean(),
-    
+    mean(Month_of_Admission, na.rm=FALSE),
+    mean(Age, na.rm=FALSE)
   )
+
+print(peru_averages)
 ```
 
 
@@ -136,32 +137,32 @@ immigrant_data
 
 # WDG: Great you've created the col_types; however, its not applied to the data.
 col_types <- cols(
-  "Month of Admission" = col_double(),
-  "Year of Admission" = col_double(),
-  "Country of Birth" = col_double(),
+  "Month_of_Admission" = col_double(),
+  "Year_of_Admission" = col_double(),
+  "Country_of_Birth" = col_double(),
   "Age" = col_double(),
-  "Country of Last Permanent Residence" = col_character(),
-  "Marital Status" = col_double(),
-  "State of Intended Residence" = col_double(),
-  "Metropolitan Area of Intended Residence" = col_double(),
-  "Labor Certification" = col_double(),
+  "Country_of_Last_Permanent_Residence" = col_character(),
+  "Marital_Status" = col_double(),
+  "State_of_Intended_Residence" = col_double(),
+  "Metropolitan_Area_of_Intended_Residence" = col_double(),
+  "Labor_Certification" = col_double(),
   "Occupation" = col_double(),
   "Sex" = col_double(),
-  "Country of Chargeability" = col_double(),
-  "Type of Case" = col_double(),
-  "Nonimmigrant class of entry" = col_double(),
-  "Nonimmigrant year of entry" = col_double(),
-  "Immigrant class of admission" = col_double(),
-  "Principal vs. Derivative Class of Admission" = col_double()
+  "Country_of_Chargeability" = col_double(),
+  "Type_of_Case" = col_double(),
+  "Nonimmigrant_Class_of_Entry" = col_double(),
+  "Nonimmigrant_Year_of_Entry" = col_double(),
+  "Immigrant_Class_of_Admission" = col_double(),
+  "Principal_Vs_Derivative_Class_of_Admission" = col_double()
 )
 
 
 
 # WDG: A title is very important when it comes to graphs. Try and answer the question: "What am I looking at?" when thinking of a title.
 immigrant_data %>%
-  select("Month of Admission", "Country of Birth") %>%
+  select("Month_of_Admission", "Country_of_Birth") %>%
   ggplot() +
-  aes(x = "Month of Admission", y = "Country of Birth") +
+  aes(x = "Month_of_Admission", y = "Country_of_Birth") +
   geom_point(alpha = .05) +
   theme_classic()
 ```
