@@ -33,6 +33,7 @@ library(devtools)
 library(naniar)
 library(reshape2)
 library(scales)
+library(DescTools)
 ```
 
 
@@ -116,14 +117,22 @@ print(immigrant_data)
 ```{r summary, echo=TRUE}
 # Summarizing Data
 
-peru_averages <- immigrant_data %>%
-  rowwise() %>%
-  summarise(Month_of_Admission, Country_of_Birth, Age) %>%
-  filter(Country_of_Birth == 224, na.rm=FALSE) %>%
+#recoding variables
+
+#colombia 218
+#venezuela 230
+
+sa_contries <- immigrant_data %>%
   mutate(
-    mean(Month_of_Admission, na.rm=FALSE),
-    mean(Age, na.rm=FALSE)
-  )
+    recode(Country_of_Birth, 218, 224, 230 == "South American Countries"))
+
+peru_averages <- immigrant_data %>%
+  filter(Country_of_Birth == 224) %>%
+  summarise(
+    mean_age = mean(Age, na.rm = TRUE),
+    mode_MoA = Mode(Month_of_Admission, na.rm = TRUE),
+    mode_YoA = Mode(Year_of_Admission, na.rm = TRUE))
+  
 
 print(peru_averages)
 ```
