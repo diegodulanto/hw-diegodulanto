@@ -17,6 +17,9 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Final Project Introduction
 
+This project is an objective view into migration patterns from 1999-2000, specifically from South America.
+
+The data collected is from the national, public database of the United States Department of Justice. Immigration and Naturalization Service. I will be cleaning the data, creating summaries of the data, and displaying the difference between 1999 and 2000 using visual aids.
 
 ```{r load packages, include=FALSE}
 library(haven)
@@ -26,18 +29,64 @@ library(readr)
 library(tibble)
 library(ggdist)
 library(gridExtra)
+library(devtools)
+library(naniar)
+library(reshape2)
+library(scales)
 ```
 
 
 
-```{r importing data}
+```{r import data}
 here::here("data", "immigrant_data_2000.sav")
 
 (immigrant_data <- haven::read_sav(
   here::here("Final Project", "data", "immigrant_data_2000.sav")
 )
 )
+```
 
+## Data Cleaning
+First, I will be renaming the variables from the dataset. Right now, the dataset uses variables named V# (i.e., V1, V2, V3, etc.). I will be renaming the variables as such:
+
+V1 - Month of Admission
+
+V2 - Year of Admission
+
+V3 - Country of Birth
+
+V4 - Age
+
+V5 - Country of Last Permanent Residence
+
+V6 - Marital Status
+
+V7 - State of Intended Residence
+
+V8 - Metropolitan Area of Intended Residence
+
+V9 - Labor Certification
+
+v10 - Occupation
+
+V11 - Sex
+
+V12 - Country of Chargeability
+
+v13 - Type of Case
+
+V14 - Nonimmigrant Class of Entry
+
+V15 - Nonimmigrant Year of Entry
+
+V16 - Immigrant Class of Admission
+
+v17 - Prinicipal Vs Derivative Class of Admission
+
+The code for renaming the variables is below.
+
+
+```{r}
 ## Renaming columns
 
 colnames(immigrant_data)[colnames(immigrant_data) == "V1"] <- "Month_of_Admission"
@@ -53,23 +102,13 @@ colnames(immigrant_data)[colnames(immigrant_data) == "V10"] <- "Occupation"
 colnames(immigrant_data)[colnames(immigrant_data) == "V11"] <- "Sex"
 colnames(immigrant_data)[colnames(immigrant_data) == "V12"] <- "Country_of_Chargeability"
 colnames(immigrant_data)[colnames(immigrant_data) == "V13"] <- "Type_of_Case"
-colnames(immigrant_data)[colnames(immigrant_data) == "V14"] <- "Nonimmigrant_class_of_entry"
-colnames(immigrant_data)[colnames(immigrant_data) == "V15"] <- "Nonimmigrant_year_of_entry"
-colnames(immigrant_data)[colnames(immigrant_data) == "V16"] <- "Immigrant_class_of_admission"
-colnames(immigrant_data)[colnames(immigrant_data) == "V17"] <- "Principal_vs_Derivative_Class_of_Admission"
+colnames(immigrant_data)[colnames(immigrant_data) == "V14"] <- "Nonimmigrant_Class_of_Entry"
+colnames(immigrant_data)[colnames(immigrant_data) == "V15"] <- "Nonimmigrant_Year_of_Entry"
+colnames(immigrant_data)[colnames(immigrant_data) == "V16"] <- "Immigrant_Class_of_Admission"
+colnames(immigrant_data)[colnames(immigrant_data) == "V17"] <- "Principal_Vs_Derivative_Class_of_Admission"
 
 
 print(immigrant_data)
-```
-
-## Data Cleaning
-
-
-
-```{r}
-# Structuring Data
-
-devtools::session_info()
 
 ```
 
@@ -77,12 +116,15 @@ devtools::session_info()
 ```{r}
 # Summarizing Data
 immigrant_data %>%
-  summarise(`Month of Admission`, `Country of Birth`, Age)
+  summarise(Month_of_Admission, Country_of_Birth, Age)
 
-
-# WDG: `group_by() effects are only functional. In other words, this doesn't have any effect until you start manipulating the data.
 immigrant_data %>%
-  group_by(`Country of Birth`)
+  filter(Country_of_Birth == 224, na.rm=TRUE) %>%
+  mutate(
+    Age=mean(),
+    Month_of_Admission=mean(),
+    
+  )
 ```
 
 
