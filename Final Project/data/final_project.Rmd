@@ -117,24 +117,31 @@ print(immigrant_data)
 ```{r summary, echo=TRUE}
 # Summarizing Data
 
-#recoding variables
-
-#colombia 218
-#venezuela 230
-
-sa_contries <- immigrant_data %>%
-  mutate(
-    recode(Country_of_Birth, 218, 224, 230 == "South American Countries"))
+colombia_averages <- immigrant_data %>%
+  filter(Country_of_Birth == 218) %>%
+  summarise(
+    col_age = mean(Age, na.rm = TRUE),
+    col_MoA = Mode(Month_of_Admission, na.rm = TRUE),
+    col_YoA = Mode(Year_of_Admission, na.rm = TRUE))
 
 peru_averages <- immigrant_data %>%
   filter(Country_of_Birth == 224) %>%
   summarise(
-    mean_age = mean(Age, na.rm = TRUE),
-    mode_MoA = Mode(Month_of_Admission, na.rm = TRUE),
-    mode_YoA = Mode(Year_of_Admission, na.rm = TRUE))
+    peru_age = mean(Age, na.rm = TRUE),
+    peru_MoA = Mode(Month_of_Admission, na.rm = TRUE),
+    peru_YoA = Mode(Year_of_Admission, na.rm = TRUE))
+
+ecuador_averages <- immigrant_data %>%
+  filter(Country_of_Birth == 227) %>%
+  summarise(
+    ec_age = mean(Age, na.rm = TRUE),
+    ec_MoA = Mode(Month_of_Admission, na.rm = TRUE),
+    ec_YoA = Mode(Year_of_Admission, na.rm = TRUE))
   
 
+print(colombia_averages)
 print(peru_averages)
+print(ecuador_averages)
 ```
 
 
@@ -169,9 +176,8 @@ col_types <- cols(
 
 # WDG: A title is very important when it comes to graphs. Try and answer the question: "What am I looking at?" when thinking of a title.
 immigrant_data %>%
-  select("Month_of_Admission", "Country_of_Birth") %>%
   ggplot() +
-  aes(x = "Month_of_Admission", y = "Country_of_Birth") +
+  aes(Age, Month_of_Admission) +
   geom_point(alpha = .05) +
   theme_classic()
 ```
