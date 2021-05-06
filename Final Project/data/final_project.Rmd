@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Final Project Introduction
 
-This project is an objective view into migration patterns from 1999-2000, specifically from South America.
+This project is an objective view into migration patterns from 1999-2000, specifically from Colombia, Ecuador, and Peru.
 
 The data collected is from the national, public database of the United States Department of Justice. Immigration and Naturalization Service. I will be cleaning the data, creating summaries of the data, and displaying the difference between 1999 and 2000 using visual aids.
 
@@ -34,6 +34,7 @@ library(naniar)
 library(reshape2)
 library(scales)
 library(DescTools)
+library(RColorBrewer)
 ```
 
 
@@ -119,29 +120,29 @@ print(immigrant_data)
 
 colombia_averages <- immigrant_data %>%
   filter(Country_of_Birth == 218) %>%
+  group_by(Year_of_Admission) %>%
   summarise(
     col_age = mean(Age, na.rm = TRUE),
-    col_MoA = Mode(Month_of_Admission, na.rm = TRUE),
-    col_YoA = Mode(Year_of_Admission, na.rm = TRUE))
+    col_MoA = Mode(Month_of_Admission, na.rm = TRUE))
 
 peru_averages <- immigrant_data %>%
   filter(Country_of_Birth == 224) %>%
+  group_by(Year_of_Admission) %>%
   summarise(
     peru_age = mean(Age, na.rm = TRUE),
-    peru_MoA = Mode(Month_of_Admission, na.rm = TRUE),
-    peru_YoA = Mode(Year_of_Admission, na.rm = TRUE))
+    peru_MoA = Mode(Month_of_Admission, na.rm = TRUE))
 
-ecuador_averages <- immigrant_data %>%
+venezuela_averages <- immigrant_data %>%
   filter(Country_of_Birth == 227) %>%
+  group_by(Year_of_Admission) %>%
   summarise(
-    ec_age = mean(Age, na.rm = TRUE),
-    ec_MoA = Mode(Month_of_Admission, na.rm = TRUE),
-    ec_YoA = Mode(Year_of_Admission, na.rm = TRUE))
+    venz_age = mean(Age, na.rm = TRUE),
+    venz_MoA = Mode(Month_of_Admission, na.rm = TRUE))
   
 
 print(colombia_averages)
 print(peru_averages)
-print(ecuador_averages)
+print(venezuela_averages)
 ```
 
 
@@ -149,35 +150,32 @@ print(ecuador_averages)
 ```{r}
 # Plotting Data
 
-immigrant_data
+names(peru_averages)
 
-# WDG: Great you've created the col_types; however, its not applied to the data.
-col_types <- cols(
-  "Month_of_Admission" = col_double(),
-  "Year_of_Admission" = col_double(),
-  "Country_of_Birth" = col_double(),
-  "Age" = col_double(),
-  "Country_of_Last_Permanent_Residence" = col_character(),
-  "Marital_Status" = col_double(),
-  "State_of_Intended_Residence" = col_double(),
-  "Metropolitan_Area_of_Intended_Residence" = col_double(),
-  "Labor_Certification" = col_double(),
-  "Occupation" = col_double(),
-  "Sex" = col_double(),
-  "Country_of_Chargeability" = col_double(),
-  "Type_of_Case" = col_double(),
-  "Nonimmigrant_Class_of_Entry" = col_double(),
-  "Nonimmigrant_Year_of_Entry" = col_double(),
-  "Immigrant_Class_of_Admission" = col_double(),
-  "Principal_Vs_Derivative_Class_of_Admission" = col_double()
-)
+ggplot(peru_averages) +
+  aes(x = peru_age, 
+      y = peru_MoA) +
+  geom_point() +
+  scale_color_brewer(palette = "Dark2") +
+  labs(title = "Peruvian Immigration Patterns") +
+  theme_classic()+
+  theme(legend.position = "right")
 
+ggplot(colombia_averages) +
+  aes(x = col_age, 
+      y = col_MoA) +
+  geom_point() +
+  scale_color_brewer(palette = "Dark2") +
+  labs(title = "Colombian Immigration Patterns") +
+  theme_classic()+
+  theme(legend.position = "right")
 
-
-# WDG: A title is very important when it comes to graphs. Try and answer the question: "What am I looking at?" when thinking of a title.
-immigrant_data %>%
-  ggplot() +
-  aes(Age, Month_of_Admission) +
-  geom_point(alpha = .05) +
-  theme_classic()
+ggplot(venezuela_averages) +
+  aes(x = venz_age, 
+      y = venz_MoA) +
+  geom_point() +
+  scale_color_brewer(palette = "Dark2") +
+  labs(title = "Ecuadorian Immigration Patterns") +
+  theme_classic()+
+  theme(legend.position = "right")
 ```
