@@ -153,7 +153,7 @@ print(venezuela_averages)
 
 With the summary statistics created above, I will now plot the data for analysis. In addition to creating a plot each of the summaries, I also plotted them on the same page and combined them into one object in the code below.
 
-```{r}
+```{r plots, echo=TRUE}
 # Plotting Data
 
 peru_plot <- ggplot(peru_averages) +
