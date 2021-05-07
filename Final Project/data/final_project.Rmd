@@ -41,7 +41,7 @@ library(ggpubr)
 library(lattice)
 ```
 
-
+Using this line of code, I am importing the dataset I will be using.
 
 ```{r import data}
 here::here("data", "immigrant_data_2000.sav")
@@ -151,7 +151,7 @@ print(peru_averages)
 print(venezuela_averages)
 ```
 
-With the summary statistics created above, I will now plot the data for analysis. 
+With the summary statistics created above, I will now plot the data for analysis. In addition to creating a plot each of the summaries, I also plotted them on the same page and combined them into one object in the code below.
 
 ```{r}
 # Plotting Data
@@ -184,9 +184,17 @@ venz_plot <- ggplot(venezuela_averages) +
   theme_classic()+
   theme(legend.position = "right")
 
-plot_grid(peru_plot, col_plot, venz_plot,
-          rel_heights = c(1, 1),
-          labels = c("A", "B", "C"))
+combined_plot <- plot_grid(
+  peru_plot, col_plot, venz_plot, 
+  rel_heights = c(1, 1), 
+  labels = c("A", "B", "C"))
+
+combined_plot
 ```
 
 My first hypothesis for the year 1999 was partially correct. As we can see from the plot, for all three countries, the most common month of immigration was December. With the exception of Peru, both Colombia and Venezuela had an average age between 25-30. My secondary hypothesis had similar results. The most common month of immigration was March (Peru), May (Colombia), and June (Venezuela). With the exception of Venezuela, the average age did increase to 30-35.
+
+```{r}
+ggsave("combined_plot.pdf")
+```
+
