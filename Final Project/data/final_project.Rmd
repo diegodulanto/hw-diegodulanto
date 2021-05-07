@@ -156,7 +156,6 @@ With the summary statistics created above, I will now plot the data for analysis
 ```{r}
 # Plotting Data
 
-
 peru_plot <- ggplot(peru_averages) +
   aes(x = Age, 
       y = Month) +
