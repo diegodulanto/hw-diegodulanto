@@ -17,9 +17,11 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Final Project Introduction
 
-This project is an objective view into migration patterns from 1999-2000, specifically from Colombia, Ecuador, and Peru.
+This project is an objective view into migration patterns from 1999-2000, specifically from Colombia, Peru, and Venezuela.
 
 The data collected is from the national, public database of the United States Department of Justice. Immigration and Naturalization Service. I will be cleaning the data, creating summaries of the data, and displaying the difference between 1999 and 2000 using visual aids.
+
+My hypothesis is that the most common month will be November and December and the average age will be 25-30 in 1999. Additionally, I hypothesize that the most common month will be June and July and the age will increase to 30-35 in 2000.
 
 ```{r load packages, include=FALSE}
 library(haven)
@@ -117,6 +119,8 @@ print(immigrant_data)
 ```
 
 
+Now that I have renamed the variables appropriately, I can start summarizing the data for analysis. I will be summarizing the data for Colombia, Peru, and Venezuela. I will group these countries by year, so that I can distinguish the differences between 1999 and 2000. The specific differences I will be analyzing is the average age and common month immigrants from these countries enter the US.
+
 ```{r summary, echo=TRUE}
 # Summarizing Data
 
@@ -147,7 +151,7 @@ print(peru_averages)
 print(venezuela_averages)
 ```
 
-
+With the summary statistics created above, I will now plot the data for analysis. 
 
 ```{r}
 # Plotting Data
@@ -184,3 +188,5 @@ plot_grid(peru_plot, col_plot, venz_plot,
           rel_heights = c(1, 1),
           labels = c("A", "B", "C"))
 ```
+
+My first hypothesis for the year 1999 was partially correct. As we can see from the plot, for all three countries, the most common month of immigration was December. With the exception of Peru, both Colombia and Venezuela had an average age between 25-30. My secondary hypothesis had similar results. The most common month of immigration was March (Peru), May (Colombia), and June (Venezuela). With the exception of Venezuela, the average age did increase to 30-35.
