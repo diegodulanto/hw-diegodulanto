@@ -30,11 +30,13 @@ library(tibble)
 library(ggdist)
 library(gridExtra)
 library(devtools)
-library(naniar)
+library(cowplot)
 library(reshape2)
 library(scales)
 library(DescTools)
 library(RColorBrewer)
+library(ggpubr)
+library(lattice)
 ```
 
 
@@ -122,22 +124,22 @@ colombia_averages <- immigrant_data %>%
   filter(Country_of_Birth == 218) %>%
   group_by(Year_of_Admission) %>%
   summarise(
-    col_age = mean(Age, na.rm = TRUE),
-    col_MoA = Mode(Month_of_Admission, na.rm = TRUE))
+    Age = mean(Age, na.rm = TRUE),
+    Month = Mode(Month_of_Admission, na.rm = TRUE))
 
 peru_averages <- immigrant_data %>%
   filter(Country_of_Birth == 224) %>%
   group_by(Year_of_Admission) %>%
   summarise(
-    peru_age = mean(Age, na.rm = TRUE),
-    peru_MoA = Mode(Month_of_Admission, na.rm = TRUE))
+    Age = mean(Age, na.rm = TRUE),
+    Month = Mode(Month_of_Admission, na.rm = TRUE))
 
 venezuela_averages <- immigrant_data %>%
   filter(Country_of_Birth == 227) %>%
   group_by(Year_of_Admission) %>%
   summarise(
-    venz_age = mean(Age, na.rm = TRUE),
-    venz_MoA = Mode(Month_of_Admission, na.rm = TRUE))
+    Age = mean(Age, na.rm = TRUE),
+    Month = Mode(Month_of_Admission, na.rm = TRUE))
   
 
 print(colombia_averages)
@@ -150,32 +152,35 @@ print(venezuela_averages)
 ```{r}
 # Plotting Data
 
-names(peru_averages)
 
-ggplot(peru_averages) +
-  aes(x = peru_age, 
-      y = peru_MoA) +
+peru_plot <- ggplot(peru_averages) +
+  aes(x = Age, 
+      y = Month) +
   geom_point() +
   scale_color_brewer(palette = "Dark2") +
   labs(title = "Peruvian Immigration Patterns") +
   theme_classic()+
   theme(legend.position = "right")
 
-ggplot(colombia_averages) +
-  aes(x = col_age, 
-      y = col_MoA) +
+col_plot <- ggplot(colombia_averages) +
+  aes(x = Age, 
+      y = Month) +
   geom_point() +
   scale_color_brewer(palette = "Dark2") +
   labs(title = "Colombian Immigration Patterns") +
   theme_classic()+
   theme(legend.position = "right")
 
-ggplot(venezuela_averages) +
-  aes(x = venz_age, 
-      y = venz_MoA) +
+venz_plot <- ggplot(venezuela_averages) +
+  aes(x = Age, 
+      y = Month) +
   geom_point() +
   scale_color_brewer(palette = "Dark2") +
-  labs(title = "Ecuadorian Immigration Patterns") +
+  labs(title = "Venezuelan Immigration Patterns") +
   theme_classic()+
   theme(legend.position = "right")
+
+plot_grid(peru_plot, col_plot, venz_plot,
+          rel_heights = c(1, 1),
+          labels = c("A", "B", "C"))
 ```
